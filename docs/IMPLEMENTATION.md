@@ -10,7 +10,7 @@ The implementation includes six marketing pages, two legal drafts, a shared resp
 
 ## Brand assets and typography
 
-Approved logo artwork has now been supplied in `public/brand/original/`. Original PNGs are preserved unchanged. No generic globe, substitute logo, or invented operational photographs were created. User-supplied PNG favicons remain in `public/icons/` and are linked in the shared head.
+Approved logo artwork has now been supplied in `public/brand/original/`. Original PNGs are preserved unchanged. No generic globe, substitute logo, or invented operational photographs were created. User-supplied PNG favicons remain in `public/icons/`; unchanged copies in `public/brand/icons/` are linked in the shared head to avoid Apache's default `/icons/` alias. A valid root `public/favicon.ico` contains the supplied 16px, 32px and 64px artwork for browser fallback, replacing the previously empty file.
 
 The shared `brand-image` component uses responsive WebP assets configured in `config/juanovio.php`. Desktop header: horizontal logo; mobile/tablet header up to 64rem: monogram; footer: full logo, lazy-loaded. The `<picture>` source selects the compact artwork without downloading the desktop logo for the mobile header. Intrinsic dimensions and original aspect ratios are retained. `BRAND_LOGO_PATH` remains an optional desktop-header override; leaving it empty uses the optimized default.
 

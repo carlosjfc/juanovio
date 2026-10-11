@@ -8,8 +8,9 @@
     <title>{{ $title }}</title>
     <meta name="description" content="{{ $description }}">
     <link rel="canonical" href="{{ route($page) }}">
+    <link rel="icon" type="image/x-icon" sizes="16x16 32x32 64x64" href="{{ asset('favicon.ico') }}">
     @foreach([16, 32, 64, 128, 256, 512] as $iconSize)
-        <link rel="icon" type="image/png" sizes="{{ $iconSize }}x{{ $iconSize }}" href="{{ asset('icons/juanovio-favicon-'.$iconSize.'.png') }}">
+        <link rel="icon" type="image/png" sizes="{{ $iconSize }}x{{ $iconSize }}" href="{{ asset('brand/icons/juanovio-favicon-'.$iconSize.'.png') }}">
     @endforeach
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{ $title }}">

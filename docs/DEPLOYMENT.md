@@ -30,6 +30,8 @@ The marketing site does not require database migrations with the current file se
 
 ## Verify the deployed site
 
+- [ ] Deploy `public/brand/icons/` and the nonempty `public/favicon.ico`. Verify `/brand/icons/juanovio-favicon-32.png` and `/favicon.ico` return 200 with image content. The production Apache `/icons/` alias intercepted the original favicon URLs; the shared head now uses the safe brand path. No favicon environment variable is required. Browsers may retain the earlier failed favicon until their cache is refreshed.
+
 - [ ] Confirm `/up` and all eight pages respond successfully; unknown routes return 404. Verify production pages do not expose debug output.
 - [ ] Check canonical, Open Graph, JSON-LD and sitemap URLs for the chosen HTTPS origin, including query variants, proxy behavior and alternate-host redirects.
 - [ ] Verify the approved share-image URL serves `image/png`, and test social previews. The initial card uses the unchanged supplied logo rather than newly designed artwork.

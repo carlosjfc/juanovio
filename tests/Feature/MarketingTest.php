@@ -6,6 +6,24 @@ use Tests\TestCase;
 
 class MarketingTest extends TestCase
 {
+    public function test_favicons_use_safe_paths_and_a_valid_root_fallback(): void
+    {
+        $fallback = file_get_contents(public_path('favicon.ico'));
+        $this->assertSame("\x00\x00\x01\x00\x03\x00", substr($fallback, 0, 6));
+        foreach ([16, 32, 64, 128, 256, 512] as $size) {
+            $name = 'juanovio-favicon-'.$size.'.png';
+            $this->assertSame(file_get_contents(public_path('icons/'.$name)), file_get_contents(public_path('brand/icons/'.$name)));
+        }
+        foreach (array_keys(config('website')) as $page) {
+            $response = $this->get(route($page))->assertOk();
+            $response->assertSee('href="'.asset('favicon.ico').'"', false);
+            foreach ([16, 32, 64, 128, 256, 512] as $size) {
+                $response->assertSee('href="'.asset('brand/icons/juanovio-favicon-'.$size.'.png').'"', false);
+                $response->assertDontSee('href="'.asset('icons/juanovio-favicon-'.$size.'.png').'"', false);
+            }
+        }
+    }
+
     public function test_only_the_selected_provider_is_exposed_on_every_page(): void
     {
         config(['juanovio.analytics.enabled' => true, 'juanovio.analytics.driver' => 'gtm']);
