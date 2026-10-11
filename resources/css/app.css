@@ -98,6 +98,8 @@ p { max-width: 68ch; } a { text-underline-offset: .3em; } a:hover { text-decorat
 .analytics-preferences p { max-width: none; }
 .analytics-preferences h2 { font-size: 2rem; margin-bottom: 1rem; }
 @media (max-width: 64rem) { .desktop-nav { display: none; } .mobile-nav { display: block; } .site-header { min-height: 5rem; } .brand { width: var(--width-compact-logo); height: var(--width-compact-logo); } .brand img { width: var(--width-compact-logo); } }
+.location-fields > .form-note { margin-block: .5rem 0; }
+
 @media (max-width: 40rem) { .wrap { width: calc(100% - 2rem); } .hero-note { flex-direction: column; gap: .4rem; } .footer-grid,.form-grid,.approach { grid-template-columns: 1fr; } .actions { gap: 1.2rem; } .brand { max-width: 13rem; } }
 @media (max-width: 40rem) {
     :root { --size-back-to-top: 3rem; --offset-back-to-top: 1.5rem; --offset-back-to-top-bottom: 4rem; }

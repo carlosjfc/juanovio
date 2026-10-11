@@ -25,9 +25,17 @@ class InquiryForm extends Component
 
     public string $product = '';
 
+    public string $category = '';
+
     public string $quantity = '';
 
-    public string $route = '';
+    public string $quantityUnit = '';
+
+    public string $packDetails = '';
+
+    public string $origin = '';
+
+    public string $destination = '';
 
     public string $message = '';
 
@@ -53,6 +61,13 @@ class InquiryForm extends Component
         return config('juanovio.inquiries_enabled') && config('juanovio.legal_reviewed')
             && filter_var(config('juanovio.recipient'), FILTER_VALIDATE_EMAIL)
             && in_array(config('mail.mailers.'.config('mail.default').'.transport'), ['smtp', 'sendmail', 'ses', 'postmark', 'resend'], true);
+    }
+
+    public function updatedQuantityUnit(): void
+    {
+        if (! in_array($this->quantityUnit, ['bags', 'other'], true)) {
+            $this->packDetails = '';
+        }
     }
 
     public function submit(): void
@@ -85,9 +100,13 @@ class InquiryForm extends Component
             'company' => ['required', 'string', 'max:160'],
             'email' => ['required', 'email:rfc', 'max:254'],
             'country' => ['required', 'string', 'max:100'],
+            'category' => ['required_if:type,buy,supply', 'string', Rule::in([...array_keys(config('juanovio.categories')), 'unsure'])],
             'product' => ['required_if:type,buy,supply', 'string', 'max:200'],
-            'quantity' => ['nullable', 'string', 'max:120'],
-            'route' => ['nullable', 'string', 'max:200'],
+            'quantity' => ['nullable', 'required_with:quantityUnit', 'numeric', 'gt:0', 'max:999999999999'],
+            'quantityUnit' => ['required_with:quantity', 'string', Rule::in(array_keys(config('juanovio.quantity_units')))],
+            'packDetails' => ['exclude_unless:quantityUnit,bags,other', 'nullable', 'string', 'max:200'],
+            'origin' => ['nullable', 'string', 'max:200'],
+            'destination' => ['nullable', 'string', 'max:200'],
             'message' => ['required', 'string', 'min:20', 'max:5000'],
             'consent' => ['accepted'],
         ]);
@@ -102,7 +121,7 @@ class InquiryForm extends Component
 
             return;
         }
-        $this->reset(['name', 'company', 'email', 'country', 'product', 'quantity', 'route', 'message', 'consent']);
+        $this->reset(['name', 'company', 'email', 'country', 'category', 'product', 'quantity', 'quantityUnit', 'packDetails', 'origin', 'destination', 'message', 'consent']);
         $this->sent = true;
         $this->dispatch('inquiry-submitted', inquiry_type: $data['type']);
     }

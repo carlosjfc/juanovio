@@ -27,6 +27,14 @@ return [
     ],
     'navigation' => ['home' => 'Home', 'about' => 'About', 'trade' => 'What We Trade', 'how-we-work' => 'How We Work', 'markets' => 'Markets', 'contact' => 'Contact'],
     'types' => ['buy' => 'Buying inquiry', 'supply' => 'Supplier introduction', 'partnership' => 'Partnership', 'general' => 'General inquiry'],
+    'quantity_units' => [
+        'bags' => 'Bags',
+        'mt' => 'Metric tonnes (MT)',
+        'kg' => 'Kilograms',
+        'litres' => 'Litres',
+        'units' => 'Units',
+        'other' => 'Other',
+    ],
     'categories' => [
         'construction' => ['title' => 'Construction & Infrastructure Materials', 'text' => 'Cement and other construction inputs may form part of sourcing discussions, depending on specifications, origin, and market needs. Initial pilot activity is exploring cement opportunities.'],
         'agriculture-food' => ['title' => 'Agriculture & Food Commodities', 'text' => 'Potential opportunities include flour and other agricultural or food products, subject to applicable standards, origin requirements, shelf life, documentation, and demand.'],

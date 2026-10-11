@@ -22,6 +22,7 @@ class InquiryTest extends TestCase
         return Livewire::test(InquiryForm::class)->set('type', 'buy')
             ->set('name', 'Test Buyer')->set('company', 'Test Company')
             ->set('email', 'buyer@example.test')->set('country', 'Guyana')
+            ->set('category', 'construction')
             ->set('product', 'Construction materials')
             ->set('message', 'Please discuss specifications and available sourcing options.')
             ->set('consent', true);
@@ -34,7 +35,8 @@ class InquiryTest extends TestCase
         $component->call('submit')->assertHasNoErrors()->assertSet('sent', true)->assertSet('email', '')
             ->assertDispatched('inquiry-submitted', fn ($event, $params) => $params === ['inquiry_type' => 'buy']);
         $component->call('submit')->assertNotDispatched('inquiry-submitted');
-        Notification::assertSentOnDemand(TradeInquiry::class, fn ($notification, $channels, $notifiable) => $notifiable->routes['mail'] === 'inquiries@example.test' && $notification->inquiry['product'] === 'Construction materials');
+        Notification::assertSentOnDemand(TradeInquiry::class, fn ($notification, $channels, $notifiable) => $notifiable->routes['mail'] === 'inquiries@example.test' && $notification->inquiry['product'] === 'Construction materials' && $notification->inquiry['category'] === 'construction');
+        $component->assertSet('category', '');
         Notification::assertCount(1);
     }
 
@@ -42,16 +44,33 @@ class InquiryTest extends TestCase
     {
         $component = Livewire::test(InquiryForm::class)->set('type', 'supply')->set('email', 'invalid');
         $this->travel(4)->seconds();
-        $component->call('submit')->assertHasErrors(['name', 'company', 'email', 'country', 'product', 'message', 'consent']);
+        $component->call('submit')->assertHasErrors(['name', 'company', 'email', 'country', 'category', 'product', 'message', 'consent']);
         $component->assertNotDispatched('inquiry-submitted');
         Notification::assertNothingSent();
     }
 
     public function test_general_inquiry_does_not_require_product(): void
     {
-        $component = $this->filled()->set('type', 'general')->set('product', '');
+        foreach (['general', 'partnership'] as $type) {
+            $component = $this->filled()->set('type', $type)->set('product', '')->set('category', '');
+            $this->travel(4)->seconds();
+            $component->call('submit')->assertHasNoErrors();
+        }
+    }
+
+    public function test_category_rejects_unknown_values_and_accepts_unsure(): void
+    {
+        $component = $this->filled()->set('category', 'unlisted');
         $this->travel(4)->seconds();
-        $component->call('submit')->assertHasNoErrors();
+        $component->call('submit')->assertHasErrors('category');
+        Notification::assertNothingSent();
+        $component->set('category', 'unsure')->call('submit')->assertHasNoErrors()->assertSet('sent', true);
+    }
+
+    public function test_category_is_rendered_as_a_readable_label_in_email(): void
+    {
+        $html = view('mail.inquiry', ['inquiry' => ['category' => 'agriculture-food']])->render();
+        $this->assertStringContainsString('Agriculture &amp; Food Commodities', $html);
     }
 
     public function test_honeypot_and_fast_submissions_are_rejected(): void
@@ -97,5 +116,67 @@ class InquiryTest extends TestCase
     public function test_email_content_is_escaped(): void
     {
         $this->assertStringNotContainsString('<script>', view('mail.inquiry', ['inquiry' => ['message' => '<script>alert(1)</script>']])->render());
+    }
+
+    public function test_locations_can_be_supplied_independently_or_together(): void
+    {
+        foreach ([['Origin port', ''], ['', 'Destination city'], ['Origin port', 'Destination city']] as [$origin, $destination]) {
+            $component = $this->filled()->set('origin', $origin)->set('destination', $destination);
+            $this->travel(4)->seconds();
+            $component->call('submit')->assertHasNoErrors()->assertSet('sent', true)->assertSet('origin', '')->assertSet('destination', '');
+            Notification::assertSentOnDemand(TradeInquiry::class, fn ($notification) => $notification->inquiry['origin'] === $origin
+                && $notification->inquiry['destination'] === $destination && ! array_key_exists('route', $notification->inquiry));
+        }
+    }
+
+    public function test_location_lengths_are_bounded_and_email_labels_are_distinct(): void
+    {
+        $component = $this->filled()->set('origin', str_repeat('a', 201))->set('destination', str_repeat('b', 201));
+        $this->travel(4)->seconds();
+        $component->call('submit')->assertHasErrors(['origin', 'destination']);
+        Notification::assertNothingSent();
+        $html = view('mail.inquiry', ['inquiry' => ['origin' => 'Origin port', 'destination' => 'Destination city']])->render();
+        $this->assertStringContainsString('Origin / sourcing location', $html);
+        $this->assertStringContainsString('Destination / delivery location', $html);
+    }
+
+    public function test_quantity_requires_a_positive_number_and_matching_unit(): void
+    {
+        $component = $this->filled()->set('quantity', '64');
+        $this->travel(4)->seconds();
+        $component->call('submit')->assertHasErrors('quantityUnit');
+        $component->set('quantityUnit', 'bags')->set('quantity', '0')->call('submit')->assertHasErrors('quantity');
+        $component->set('quantity', '-2')->call('submit')->assertHasErrors('quantity');
+        $component->set('quantity', 'many')->call('submit')->assertHasErrors('quantity');
+        Notification::assertNothingSent();
+    }
+
+    public function test_quantity_unit_requires_quantity_and_rejects_unknown_units(): void
+    {
+        $component = $this->filled()->set('quantityUnit', 'mt');
+        $this->travel(4)->seconds();
+        $component->call('submit')->assertHasErrors('quantity');
+        $component->set('quantity', '235')->set('quantityUnit', 'tons')->call('submit')->assertHasErrors('quantityUnit');
+        Notification::assertNothingSent();
+    }
+
+    public function test_bag_quantity_and_pack_details_are_sent_and_cleared(): void
+    {
+        $component = $this->filled()->set('quantity', '64')->set('quantityUnit', 'bags')->set('packDetails', '42.5 kg per bag');
+        $this->travel(4)->seconds();
+        $component->call('submit')->assertHasNoErrors()->assertSet('quantity', '')->assertSet('quantityUnit', '')->assertSet('packDetails', '');
+        Notification::assertSentOnDemand(TradeInquiry::class, fn ($notification) => $notification->inquiry['quantity'] === '64'
+            && $notification->inquiry['quantityUnit'] === 'bags' && $notification->inquiry['packDetails'] === '42.5 kg per bag');
+    }
+
+    public function test_switching_unit_clears_and_excludes_irrelevant_pack_details(): void
+    {
+        $component = $this->filled()->set('quantity', '235.5')->set('quantityUnit', 'bags')->set('packDetails', '42.5 kg per bag');
+        $component->set('quantityUnit', 'mt')->assertSet('packDetails', '')->set('packDetails', 'stale details');
+        $this->travel(4)->seconds();
+        $component->call('submit')->assertHasNoErrors();
+        Notification::assertSentOnDemand(TradeInquiry::class, fn ($notification) => ! array_key_exists('packDetails', $notification->inquiry));
+        $html = view('mail.inquiry', ['inquiry' => ['quantityUnit' => 'mt']])->render();
+        $this->assertStringContainsString('Metric tonnes (MT)', $html);
     }
 }
