@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    <x-analytics.head />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title }}</title>
@@ -32,6 +33,7 @@
     @livewireStyles
 </head>
 <body>
+    <x-analytics.body />
     <a class="skip-link" href="#main">Skip to content</a>
     <header id="page-top" class="site-header wrap" tabindex="-1">
         <a class="brand" href="{{ route('home') }}" aria-label="Juanovio International Trading Inc. — Home">

@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'analytics' => [
+        'ga4_id' => env('GOOGLE_ANALYTICS_ID', 'G-Y1RN3SLGFQ'),
+        'gtm_id' => env('GOOGLE_TAG_MANAGER_ID', 'GTM-TFMSHHLF'),
+    ],
     'inquiries_enabled' => env('INQUIRIES_ENABLED', false),
     'recipient' => env('INQUIRY_RECIPIENT'),
     'legal_reviewed' => env('LEGAL_REVIEWED', false),

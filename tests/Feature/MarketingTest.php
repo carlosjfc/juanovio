@@ -6,6 +6,25 @@ use Tests\TestCase;
 
 class MarketingTest extends TestCase
 {
+    public function test_google_tags_render_once_in_the_correct_locations_on_every_page(): void
+    {
+        foreach (array_keys(config('website')) as $page) {
+            $html = $this->get(route($page))->assertOk()->getContent();
+            $headEnd = strpos($html, '</head>');
+            $bodyStart = strpos($html, '<body>');
+            $fallback = strpos($html, '<noscript><iframe');
+
+            $this->assertSame(1, substr_count($html, 'https://www.googletagmanager.com/gtag/js?id=G-Y1RN3SLGFQ'));
+            $this->assertSame(1, substr_count($html, 'https://www.googletagmanager.com/ns.html?id=GTM-TFMSHHLF'));
+            $this->assertLessThan($headEnd, strpos($html, 'https://www.googletagmanager.com/gtag/js'));
+            $this->assertLessThan($headEnd, strpos($html, 'https://www.googletagmanager.com/gtm.js'));
+            $this->assertGreaterThan($bodyStart, $fallback);
+            $this->assertLessThan(strpos($html, '<a class="skip-link"'), $fallback);
+            $this->assertStringContainsString("'GTM-TFMSHHLF'", $html);
+            $this->assertStringContainsString("gtag('config', 'G-Y1RN3SLGFQ')", $html);
+        }
+    }
+
     public function test_social_metadata_matches_each_page_and_the_approved_image(): void
     {
         $image = config('juanovio.social_image');
