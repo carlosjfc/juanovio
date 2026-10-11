@@ -14,7 +14,28 @@ test('back to top appears after scrolling and supports keyboard and reduced moti
     await page.keyboard.press('Enter');
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
     await expect(page.locator('#page-top')).toBeFocused();
+    expect(await page.locator('#page-top').evaluate(header => getComputedStyle(header).outlineStyle)).toBe('none');
     await expect(button).toBeHidden();
+    await page.keyboard.press('Tab');
+    await expect(page.locator('.site-header .brand')).toBeFocused();
+    expect(await page.locator('.site-header .brand').evaluate(link => getComputedStyle(link).outlineStyle)).toBe('solid');
+});
+
+test('menu navigation followed by back-to-top does not outline the header', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    if (await page.locator('.mobile-nav').isVisible()) {
+        await page.getByRole('button', { name: 'Open navigation menu' }).click();
+        await page.getByRole('menuitem', { name: 'What We Trade' }).click();
+    } else {
+        await page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name: 'What We Trade' }).click();
+    }
+    await expect(page).toHaveURL(/\/trade$/);
+    await page.evaluate(() => window.scrollTo(0, 800));
+    await page.getByRole('button', { name: 'Back to top', exact: true }).click();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+    await expect(page.locator('#page-top')).toBeFocused();
+    expect(await page.locator('#page-top').evaluate(header => getComputedStyle(header).outlineStyle)).toBe('none');
 });
 
 for (const path of ['/', '/about', '/trade', '/how-we-work', '/markets', '/contact', '/privacy', '/terms']) {

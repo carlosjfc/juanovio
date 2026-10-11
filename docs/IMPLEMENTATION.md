@@ -91,6 +91,8 @@ Initial verification: 13 PHP tests (124 assertions) and 30 browser tests passed;
 
 ## Layout refinement
 
+Back-to-top intentionally focuses the header so keyboard navigation resumes at the top. The shared focus-visible rule previously drew a purple outline around that entire noninteractive container, including on mobile after menu navigation. A header-only focus override removes that outline while preserving visible focus on links and buttons. Browser regression checks cover menu navigation followed by back-to-top, and confirm Tab then focuses the logo link with its normal visible outline.
+
 The live site was inspected in Chrome and through automated Chromium checks. The duplicated desktop current-page underline was removed, retaining Flux's single indicator. Header height was reduced from 241px to 112px on desktop, and from 112px to 80px on mobile. Centralized section padding is now 36–60px rather than 56–112px; hero, breadcrumb, card, and closing spacing were tightened. Display headings wrap more efficiently, category introductions sit beside their rows on desktop, and mobile footer navigation uses two columns. Four-section content such as the process steps now uses a balanced two-by-two grid on wider screens rather than a three-plus-one arrangement.
 
 Mobile navigation now uses the installed Flux dropdown, icon button, and menu components. It provides a hamburger icon, an accessible name, expanded-state semantics, keyboard navigation, Escape dismissal, restored trigger focus, and 44px-or-larger control targets. A stable scrollbar gutter prevents page content reflow when the menu opens. No custom navigation JavaScript or vendor edits were added.
