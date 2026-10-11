@@ -20,6 +20,8 @@ These are the existing Juanovio IDs; ownership and intended production property 
 
 ## Consent and privacy
 
+The consent banner follows the shared `.wrap` content width (up to `--width-content`, 76rem), including the site's responsive side gutters. Its text uses the available width to reduce unnecessary wrapping on desktop.
+
 Before permission, no provider script loads and all four Google consent states are denied. Accepting grants only `analytics_storage`; advertising remains denied. The localStorage key `juanovio-analytics-consent` stores the choice, policy version and decision timestamp for 180 days. Invalid, expired, future-dated or obsolete choices require permission again. Increment the version when policy wording or behavior materially changes.
 
 The footer's Analytics preferences control reopens the banner and focuses a choice button. Rejecting after acceptance sends the denied update and reloads the page when the choice can be saved, removing loaded scripts. Changes in another tab trigger a reload. Existing Google cookies are not explicitly deleted; already transmitted data cannot be recalled. When storage is unavailable the choice is page-local; Google receives consent updates and application events stop on rejection, but loaded third-party code cannot be fully unloaded without a reload. This limitation needs consideration during privacy review. Reloading can discard unsent form input.
