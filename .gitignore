@@ -29,3 +29,11 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+
+.idea
+
+/test-results/
+/playwright-report/
+*.log
+.DS_Store
+/public/fonts-manifest.dev.json

@@ -1,0 +1,77 @@
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test('back to top appears after scrolling and supports keyboard and reduced motion', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    const button = page.getByRole('button', { name: 'Back to top', exact: true });
+    await expect(button).toBeHidden();
+    await page.evaluate(() => window.scrollTo(0, 800));
+    await expect(button).toBeVisible();
+    const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+    expect(results.violations).toEqual([]);
+    await button.focus();
+    await page.keyboard.press('Enter');
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+    await expect(page.locator('#page-top')).toBeFocused();
+    await expect(button).toBeHidden();
+});
+
+for (const path of ['/', '/about', '/trade', '/how-we-work', '/markets', '/contact', '/privacy', '/terms']) {
+    test(`${path} is accessible and fits the viewport`, async ({ page }, testInfo) => {
+        const errors = [];
+        page.on('pageerror', error => errors.push(error.message));
+        const response = await page.goto(path);
+        expect(response.status()).toBe(200);
+        await page.evaluate(() => document.fonts.ready);
+        await expect(page.locator('h1')).toHaveCount(1);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+        const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+        expect(results.violations).toEqual([]);
+        expect(errors).toEqual([]);
+        await page.screenshot({ path: testInfo.outputPath('page.png'), fullPage: true });
+    });
+}
+
+test('keyboard navigation exposes the skip link and mobile menu', async ({ page }) => {
+    await page.goto('/');
+    await page.keyboard.press('Tab');
+    await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
+    if (await page.locator('.mobile-nav').isVisible()) {
+        await page.getByRole('button', { name: 'Open navigation menu' }).focus();
+        await page.keyboard.press('Enter');
+        await expect(page.getByRole('menu', { name: 'Mobile navigation' })).toBeVisible();
+        await page.getByRole('menuitem', { name: 'What We Trade' }).click();
+        await expect(page).toHaveURL(/\/trade$/);
+    }
+});
+
+test('supplier link preselects inquiry type and draft form is disabled', async ({ page }) => {
+    await page.goto('/contact?type=supply');
+    await expect(page.getByLabel('Inquiry type', { exact: true })).toHaveValue('supply');
+    await expect(page.getByRole('button', { name: 'Send Inquiry' })).toBeDisabled();
+    await expect(page.getByRole('status')).toContainText('Submissions are currently unavailable');
+});
+
+test('navigation keeps one current-page marker and closes with Escape', async ({ page }) => {
+    await page.goto('/about');
+    if (await page.locator('.desktop-nav').isVisible()) {
+        const current = page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name: 'About', exact: true });
+        expect(await current.evaluate(link => getComputedStyle(link).textDecorationLine)).toBe('none');
+        expect(await current.evaluate(link => getComputedStyle(link, '::after').height)).toBe('2px');
+        expect(await page.locator('.site-header').evaluate(header => header.getBoundingClientRect().height)).toBeLessThanOrEqual(120);
+    } else {
+        const trigger = page.getByRole('button', { name: 'Open navigation menu' });
+        const heroWidth = await page.locator('.hero').evaluate(hero => hero.getBoundingClientRect().width);
+        await trigger.click();
+        const menu = page.getByRole('menu', { name: 'Mobile navigation' });
+        await expect(menu).toBeVisible();
+        await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+        expect(await page.locator('.hero').evaluate(hero => hero.getBoundingClientRect().width)).toBe(heroWidth);
+        const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+        expect(results.violations).toEqual([]);
+        await page.keyboard.press('Escape');
+        await expect(menu).not.toBeVisible();
+        await expect(trigger).toBeFocused();
+    }
+});

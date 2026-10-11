@@ -1,0 +1,91 @@
+<?php
+
+return [
+    'home' => [
+        'title' => 'Juanovio International Trading | Cross-Border Trade Opportunities',
+        'description' => 'An international trading venture connecting commercial opportunities, product supply, and buyers across markets.',
+        'eyebrow' => 'International trading house',
+        'heading' => 'Building Connections. Moving Trade Forward.',
+        'intro' => 'Juanovio International Trading develops cross-border commercial opportunities by connecting supply, demand, and the people behind successful trade. Our approach is built on careful coordination, transparent communication, and long-term relationships.',
+        'sections' => [
+            ['title' => 'Trade without narrow boundaries', 'text' => 'From construction inputs to agricultural and food commodities, our interests are shaped by market demand, reliable supply, and practical commercial opportunities.'],
+            ['title' => 'Markets in motion', 'text' => 'Our initial work is focused on evaluating opportunities between supply markets and Guyana, with a model designed to expand to other destinations and origins as relationships and demand develop.'],
+        ],
+    ],
+    'about' => [
+        'title' => 'About Juanovio | International Trading House',
+        'description' => 'Our perspective, principles, and long-term ambition for developing thoughtful commercial connections across borders.',
+        'eyebrow' => 'Our perspective',
+        'heading' => 'A Trading House Built on Relationships and Purpose.',
+        'intro' => 'Juanovio International Trading was conceived with a long-term vision: to create meaningful commercial connections across borders while remaining grounded in integrity, diligence, and respect for every relationship.',
+        'sections' => [
+            ['title' => 'Our perspective', 'text' => 'International trade is more than moving goods. It begins with understanding the needs of buyers, the capabilities of suppliers, and the realities of each market.'],
+            ['title' => 'Our principles', 'text' => 'Integrity in communication. Diligence in evaluation. Practical coordination. Long-term relationships.'],
+            ['title' => 'Our ambition', 'text' => 'Start thoughtfully, learn through real opportunities, and expand across product categories and geographic markets when there is a sound commercial reason to do so.'],
+        ],
+    ],
+    'trade' => [
+        'title' => 'Trade Categories | Juanovio International Trading',
+        'description' => 'Explore categories of interest across construction materials, agriculture, food commodities, and other suitable traded goods.',
+        'eyebrow' => 'Categories of interest',
+        'heading' => 'Products Change. Our Commitment to Sound Trade Does Not.',
+        'intro' => 'We evaluate commercial opportunities across a growing range of product categories. Each inquiry is assessed individually based on specifications, available supply, destination requirements, and transaction feasibility.',
+        'sections' => [],
+        'disclosure' => 'Product availability, origins, specifications, quantities, and commercial terms are subject to confirmation. This page is not a product catalog or binding offer.',
+    ],
+    'how-we-work' => [
+        'title' => 'How We Work | Juanovio International Trading',
+        'description' => 'A considered approach to understanding requirements, evaluating commercial fit, and coordinating next steps.',
+        'eyebrow' => 'A considered approach',
+        'heading' => 'A Clearer Path from Inquiry to Opportunity.',
+        'intro' => 'Every trade begins with a conversation. We seek to understand the commercial requirement, identify potential alignment, and coordinate a practical path for further evaluation.',
+        'sections' => [
+            ['title' => 'Tell us what you need', 'text' => 'Buyers describe product, specifications, estimated volume, destination, and timing. Suppliers describe product, origin, capacity, and available documentation.'],
+            ['title' => 'Evaluate the opportunity', 'text' => 'Review commercial fit, potential sourcing options, and key transaction constraints.'],
+            ['title' => 'Align the fundamentals', 'text' => 'Clarify proposed commercial roles, specifications, logistics responsibilities, documentation, payment approach, and applicable terms.'],
+            ['title' => 'Coordinate next steps', 'text' => 'When both sides see a viable opportunity, continue discussions toward an agreed transaction structure.'],
+        ],
+        'disclosure' => 'Commercial engagement, counterparties, product availability, regulatory requirements, and final terms are evaluated case by case. No shipment, sourcing, or financial outcome is guaranteed.',
+    ],
+    'markets' => [
+        'title' => 'International Markets | Juanovio International Trading',
+        'description' => 'An initial market focus under evaluation, with a model open to additional origins and destinations.',
+        'eyebrow' => 'Origins & destinations',
+        'heading' => 'Rooted in Purpose. Open to the World.',
+        'intro' => 'Our model is designed to connect opportunities across origins and destinations, without limiting the business to one route or one product.',
+        'sections' => [['title' => 'Country-aware evaluation', 'text' => 'Each market presents its own requirements for standards, import permissions, customs procedures, documentation, and delivery terms. These must be assessed for each transaction.']],
+    ],
+    'contact' => [
+        'title' => 'Contact Juanovio | Buying, Supply & Partnerships',
+        'description' => 'Discuss buying requirements, introduce supply, or explore a commercial partnership with Juanovio.',
+        'eyebrow' => 'Begin a conversation',
+        'heading' => 'Let’s Start a Meaningful Conversation.',
+        'intro' => 'Whether you’re seeking a product, offering supply, or exploring a commercial partnership, tell us about the opportunity and the market you have in mind.',
+        'sections' => [],
+    ],
+    'privacy' => [
+        'title' => 'Privacy Policy Draft | Juanovio',
+        'description' => 'Draft information about inquiry data handling, pending legal review.',
+        'eyebrow' => 'Legal review pending',
+        'heading' => 'Privacy Policy — Draft',
+        'intro' => 'This working draft requires jurisdiction-aware legal review before launch. Public inquiry collection remains disabled until the policy and delivery configuration are reviewed.',
+        'sections' => [
+            ['title' => 'Inquiry information', 'text' => 'The proposed form collects contact and company details, country, inquiry type, product information, and a message to review and respond to commercial inquiries. Do not submit sensitive financial documents. Uploads are disabled.'],
+            ['title' => 'Processing & retention', 'text' => 'The application sends inquiries to a configured company mailbox without creating a separate inquiry database. Mail providers and hosting providers process this information. Their identities, processing locations, international transfers, and mailbox retention period must be confirmed before launch.'],
+            ['title' => 'Security & site storage', 'text' => 'The site uses session cookies for form security and temporary rate-limit data to mitigate abuse. No analytics are configured. Access controls, provider safeguards, and incident procedures require operational review.'],
+            ['title' => 'Your rights & contact', 'text' => 'The applicable jurisdiction, rights process, verified privacy contact, and deletion procedure must be added before this policy is published as final.'],
+        ],
+    ],
+    'terms' => [
+        'title' => 'Terms of Use Draft | Juanovio',
+        'description' => 'Draft terms for informational website use, pending legal review.',
+        'eyebrow' => 'Legal review pending',
+        'heading' => 'Terms of Use — Draft',
+        'intro' => 'These proposed terms require legal review before launch, including confirmation of governing law and verified company contact details.',
+        'sections' => [
+            ['title' => 'Informational purpose', 'text' => 'Website content describes developing commercial interests. It is not a binding product offer. Availability, specifications, roles, and transaction terms require separate confirmation and agreement. No sourcing, shipment, or financial outcome is guaranteed.'],
+            ['title' => 'Acceptable use & intellectual property', 'text' => 'Use the site only for lawful inquiries. Do not submit deceptive information, malicious content, or confidential third-party documents. Approved brand artwork and site materials must not be reused without appropriate permission.'],
+            ['title' => 'Matters for legal review', 'text' => 'Counsel must finalize intellectual property provisions, liability limitations where lawful, governing law, dispute procedures, and a verified contact mechanism.'],
+        ],
+    ],
+];
