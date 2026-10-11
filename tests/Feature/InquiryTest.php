@@ -118,6 +118,43 @@ class InquiryTest extends TestCase
         $this->assertStringNotContainsString('<script>', view('mail.inquiry', ['inquiry' => ['message' => '<script>alert(1)</script>']])->render());
     }
 
+    public function test_every_submitted_business_field_and_acknowledgment_reaches_the_rendered_email(): void
+    {
+        $fields = [
+            'type' => 'supply', 'name' => 'Complete Supplier', 'company' => 'Complete Company',
+            'email' => 'supplier@example.test', 'country' => 'Supplier country',
+            'category' => 'agriculture-food', 'product' => 'Wheat flour specification',
+            'quantity' => '64', 'quantityUnit' => 'bags', 'packDetails' => '42.5 kg per bag',
+            'origin' => 'Origin port', 'destination' => 'Destination warehouse',
+            'message' => "Please review this complete supply inquiry.\nDelivery timing is flexible.", 'consent' => true,
+        ];
+        $component = Livewire::test(InquiryForm::class);
+        foreach ($fields as $field => $value) {
+            $component->set($field, $value);
+        }
+        $this->travel(4)->seconds();
+        $component->call('submit')->assertHasNoErrors()->assertSet('sent', true);
+        Notification::assertSentOnDemand(TradeInquiry::class, function ($notification, $channels, $notifiable) use ($fields) {
+            $this->assertSame($fields, $notification->inquiry);
+            $mail = $notification->toMail($notifiable);
+            $this->assertSame('Juanovio — Supplier introduction', $mail->subject);
+            $this->assertSame('supplier@example.test', $mail->replyTo[0][0]);
+            $html = view($mail->view, $mail->viewData)->render();
+            foreach ($fields as $field => $value) {
+                $expected = match ($field) {
+                    'type' => 'Supplier introduction', 'category' => 'Agriculture & Food Commodities',
+                    'quantityUnit' => 'Bags', 'consent' => 'Acknowledged: use of submitted information to review and respond to this inquiry.',
+                    default => $value,
+                };
+                $this->assertStringContainsString(e($expected), $html);
+            }
+            $this->assertStringContainsString('Privacy acknowledgment', $html);
+            $this->assertArrayNotHasKey('website', $notification->inquiry);
+
+            return true;
+        });
+    }
+
     public function test_locations_can_be_supplied_independently_or_together(): void
     {
         foreach ([['Origin port', ''], ['', 'Destination city'], ['Origin port', 'Destination city']] as [$origin, $destination]) {

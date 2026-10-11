@@ -110,7 +110,6 @@ class InquiryForm extends Component
             'message' => ['required', 'string', 'min:20', 'max:5000'],
             'consent' => ['accepted'],
         ]);
-        unset($data['consent']);
         try {
             // Send synchronously: success means the transport accepted the message.
             // Do not persist inquiry content or place it in diagnostic logs.
