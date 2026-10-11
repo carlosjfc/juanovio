@@ -46,6 +46,8 @@ The marketing site does not require database migrations with the current file se
 - [ ] Keep the prior release/build available and switch releases atomically where supported. Preserve environment settings, application key and persistent storage.
 - [ ] After rollback, rebuild configuration/view/route caches against the restored release. Restart long-lived processes if introduced later.
 - [ ] Assign ownership for inbox monitoring, mail delivery failures, application logs, backups and dependency updates. Keep logs free of submitted inquiry content.
+- [ ] Put the owner-led privacy-request process into operation: monitor privacy@juanovio.com; record receipt and applicable deadlines; verify identity proportionately without routinely collecting ID documents; search relevant inbox, sent, archive, Trash, and any authorized forwarded/local copies; protect third-party information; complete access/correction/deletion or document a valid exception; contact providers where needed; confirm the outcome. Keep only the minimum request-handling record needed under an approved retention schedule. Review applicable rights, deadlines, and appeal/complaint requirements before publishing the policy as final.
+- [ ] Implement the inquiry-mailbox retention process: delete unanswered inquiries 30 days after receipt when no commercial discussion develops, and closed inquiries 30 days after closure. Review relevant commercial correspondence periodically after a relationship ends and document any continued retention need. The website does not perform mailbox deletion. Confirm the review cadence, responsible person, permanent deletion from Trash, any local/forwarded copies, and provider backup expiration before finalizing the privacy policy.
 
 Related commands:
 

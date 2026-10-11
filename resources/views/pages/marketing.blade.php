@@ -16,7 +16,7 @@
         </div></section>
     @endif
     @if($page === 'markets')<section class="wrap cards section">@foreach(config('juanovio.markets') as $market)<article class="card"><p class="eyebrow">{{ $market['status'] }}</p><h2>{{ $market['title'] }}</h2><p>{{ $market['text'] }}</p></article>@endforeach</section>@endif
-    @if(count($content['sections']))<section class="wrap editorial section {{ count($content['sections']) === 4 ? 'editorial-pairs' : '' }}">@foreach($content['sections'] as $section)<article>@if($page === 'how-we-work')<p class="index" aria-hidden="true">0{{ $loop->iteration }}</p>@endif<h2>{{ $section['title'] }}</h2><p>{{ $section['text'] }}</p></article>@endforeach</section>@endif
+    @if(count($content['sections']))<section class="wrap editorial section {{ count($content['sections']) === 4 ? 'editorial-pairs' : '' }}">@foreach($content['sections'] as $section)<article>@if($page === 'how-we-work')<p class="index" aria-hidden="true">0{{ $loop->iteration }}</p>@endif<h2>{{ $section['title'] }}</h2><p><x-policy-text :text="$section['text']" /></p></article>@endforeach</section>@endif
     @if($page === 'home')<section class="wrap section"><p class="eyebrow">Our approach</p><h2>A practical path forward.</h2><ol class="approach"><li>Understand the requirement</li><li>Evaluate commercial fit</li><li>Coordinate next steps</li></ol><x-cta-link href="{{ route('how-we-work') }}">Discover how we work</x-cta-link></section>@endif
     @if(isset($content['disclosure']))<aside class="wrap disclosure"><p>{{ $content['disclosure'] }}</p></aside>@endif
     @if($page === 'contact')<section class="wrap contact-section"><livewire:inquiry-form /></section>@endif

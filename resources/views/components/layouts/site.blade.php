@@ -53,7 +53,7 @@
     <footer class="site-footer"><div class="wrap footer-grid">
         <div><a class="footer-brand" href="{{ route('home') }}" aria-label="Juanovio International Trading Inc. — Home"><x-brand-image variant="full" :lazy="true" /></a><p>Building connections across borders.<br>Developing opportunities with care.</p></div>
         <nav class="footer-navigation" aria-label="Footer navigation">@foreach(config('juanovio.navigation') as $name => $label)<a href="{{ route($name) }}">{{ $label }}</a>@endforeach</nav>
-        <div><nav class="footer-legal" aria-label="Legal navigation"><a href="{{ route('privacy') }}">Privacy policy · Draft</a><a href="{{ route('terms') }}">Terms of use · Draft</a></nav><p class="footer-copyright">© {{ date('Y') }} Juanovio</p></div>
+        <div><nav class="footer-legal" aria-label="Legal navigation"><a href="{{ route('privacy') }}">Privacy policy</a><a href="{{ route('terms') }}">Terms of use · Draft</a></nav><p class="footer-copyright">© {{ date('Y') }} Juanovio</p></div>
     </div></footer>
     @if(\App\Support\Analytics::settings())
         <div class="wrap"><flux:button type="button" variant="ghost" data-analytics-preferences>Analytics preferences</flux:button></div>

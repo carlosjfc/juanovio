@@ -81,6 +81,20 @@ class MarketingTest extends TestCase
         }
     }
 
+    public function test_privacy_policy_is_final_and_includes_request_and_complaint_routes(): void
+    {
+        $this->get('/privacy')->assertOk()
+            ->assertSee('Effective October 11, 2026')
+            ->assertSee('Reasons and legal bases for processing')
+            ->assertSee('Privacy request appeal')
+            ->assertSee('New Jersey Division of Consumer Affairs')
+            ->assertSee('mailto:privacy@juanovio.com', false)
+            ->assertDontSee('Privacy Policy — Draft')
+            ->assertDontSee('Privacy policy · Draft')
+            ->assertDontSee('before this policy is finalized')
+            ->assertDontSee('Public inquiry collection remains disabled');
+    }
+
     public function test_categories_and_market_statuses_are_conservative(): void
     {
         $this->get('/trade')->assertSee('not a product catalog or binding offer')->assertSee('subject to confirmation');
