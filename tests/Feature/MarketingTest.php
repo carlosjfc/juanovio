@@ -6,6 +6,25 @@ use Tests\TestCase;
 
 class MarketingTest extends TestCase
 {
+    public function test_social_metadata_matches_each_page_and_the_approved_image(): void
+    {
+        $image = config('juanovio.social_image');
+        [$width, $height] = getimagesize(public_path($image['path']));
+        $this->assertSame($width, $image['width']);
+        $this->assertSame($height, $image['height']);
+        foreach (config('website') as $page => $content) {
+            $this->get(route($page))
+                ->assertSee('<meta property="og:site_name" content="Juanovio International Trading Inc.">', false)
+                ->assertSee('<meta property="og:locale" content="en_US">', false)
+                ->assertSee('<meta property="og:image" content="'.asset($image['path']).'">', false)
+                ->assertSee('<meta property="og:image:alt" content="'.e($image['alt']).'">', false)
+                ->assertSee('<meta name="twitter:card" content="summary">', false)
+                ->assertSee('<meta name="twitter:title" content="'.e($content['title']).'">', false)
+                ->assertSee('<meta name="twitter:description" content="'.e($content['description']).'">', false)
+                ->assertSee('<meta name="twitter:image" content="'.asset($image['path']).'">', false);
+        }
+    }
+
     public function test_all_marketing_pages_render_the_approved_draft_and_metadata(): void
     {
         foreach (config('website') as $page => $content) {

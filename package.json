@@ -5,7 +5,8 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "test:browser": "playwright test"
+        "test:browser": "playwright test",
+        "measure:performance": "node scripts/measure-performance.mjs"
     },
     "devDependencies": {
         "@axe-core/playwright": "^4.13.0",

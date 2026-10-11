@@ -14,3 +14,5 @@
 See [TODO.md](TODO.md) for shared priorities, completion criteria, launch dependencies, and completed work. Keep it updated as website tasks progress.
 
 The Laravel/Livewire/Flux Pro marketing site is now initialized. See [implementation and setup notes](docs/IMPLEMENTATION.md) for local development, tests, brand asset requirements, and launch configuration. Root content briefs remain the source of authority. Inquiry delivery and search indexing stay disabled until the required review and configuration are complete.
+
+See the [deployment checklist](docs/DEPLOYMENT.md) and [performance measurements](docs/PERFORMANCE.md). Run `php artisan website:check` for read-only launch configuration checks, and `npm run measure:performance` for local mobile-viewport measurements.

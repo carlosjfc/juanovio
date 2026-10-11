@@ -38,7 +38,7 @@ npm run build
 
 Do not overwrite an existing `.env`. Laravel Herd serves this project at `http://juanovio.test`. Set `APP_URL` to the site's actual canonical origin. For another environment use `php artisan serve` and update the URL. Session and cache defaults use files, and email is synchronous; the marketing site does not require database migrations. Standard Laravel database scaffolding remains available for future needs.
 
-This machine's Homebrew PHP emits a startup warning for a missing `intl.so`. Verification used the working Herd PHP 8.4 executable. The system PHP configuration was not changed.
+Current command-line verification uses PHP 8.5; Herd serves the local site with PHP 8.4. Earlier setup notes about a Homebrew `intl.so` warning are historical; no system PHP configuration was changed.
 
 ## Inquiry behavior and launch configuration
 
@@ -59,13 +59,15 @@ Keep mail credentials and Flux authentication out of Git. Production should use 
 
 ## Content and launch limitations
 
-All copy remains a draft for factual review. Categories are interests, not confirmed inventory. Guyana is described as a pilot under evaluation. No supplier identities, corporate credentials, addresses, phone numbers, testimonials, statistics, or active route maps were invented. The founder's family story is withheld pending explicit approval. Organization structured data and Open Graph artwork are withheld pending verified facts and approved assets.
+All copy remains a draft for factual review. Categories are interests, not confirmed inventory. Guyana is described as a pilot under evaluation. No supplier identities, corporate credentials, addresses, phone numbers, testimonials, statistics, or active route maps were invented. The founder's family story is withheld pending explicit approval. JSON-LD now describes the supplied company identity and approved logo, WebSite, page types, breadcrumbs, and conservative opportunity lists. Open Graph and Twitter summary cards use the supplied full-logo PNG unchanged, with actual dimensions and alternative text; no new artwork or social account identity was invented.
 
-The legal routes are explicitly marked as drafts and noindexed. Until `LEGAL_REVIEWED` is true, all pages are noindexed, robots disallows crawling, and the sitemap is empty. That flag does not rewrite policy text or certify compliance: approved copy must be edited into the version-controlled content first. Confirm the actual organization name and any additional public facts before adding structured data.
+The legal routes are explicitly marked as drafts and noindexed. Until `LEGAL_REVIEWED` is true, all pages are noindexed, robots disallows crawling, and the sitemap is empty. That flag does not rewrite policy text or certify compliance: approved copy must be edited into the version-controlled content first. Any additional Organization facts require verification before adding them to structured data.
 
 Before launch: review public claims and legal drafts; confirm privacy contact, processors, retention and jurisdiction; configure/test mail delivery with real infrastructure; verify any additional approved imagery; recheck metadata and indexing.
 
 ## Verification
+
+Current checks and launch follow-ups are recorded in [PERFORMANCE.md](PERFORMANCE.md), [SEO_REVIEW.md](SEO_REVIEW.md), and [DEPLOYMENT.md](DEPLOYMENT.md). The verification counts in the historical sections below describe earlier milestones.
 
 ```sh
 vendor/bin/pint
@@ -73,9 +75,15 @@ php artisan test
 npm run build
 npx playwright install chromium
 npm run test:browser
+php artisan website:check
+npm run measure:performance
 ```
 
 Set `PLAYWRIGHT_BASE_URL` if not using Herd. Browser tests cover all eight pages at 390px, 768px, and 1440px, check overflow and runtime errors, run axe WCAG A/AA checks, exercise keyboard navigation, and verify supplier preselection and disabled draft submissions. Screenshots are generated in ignored `test-results/` directories. PHP tests cover rendered copy, metadata/indexing, conditional validation, consent, spam checks, rate limits, delivery failure, success/duplicate behavior, and notification escaping. Notifications are faked; actual provider delivery requires configuration and a separate operational check.
+
+The extended browser suite also verifies SEO/social metadata, JSON-LD identities, internal links, the social image, and accessible form descriptions. `website:check` is a read-only configuration check; exit 1 is expected locally while launch prerequisites remain unmet. It does not send mail or certify legal review. If configuration is cached when code/config changes, clear it locally with `php artisan config:clear`; rebuild it as part of a production release.
+
+Tailwind excludes unused Flux families through `@source not`; review the exclusions before adopting new components or Pro variants. CSS fell from 459.14 KB to 183.25 KB raw. The reproducible performance command reports lab observations and asset size, not field Core Web Vitals.
 
 Initial verification: 13 PHP tests (124 assertions) and 30 browser tests passed; Pint, production build, Composer validation, Blade caching, and route caching also passed. Desktop navigation's default Flux gray narrowly missed contrast against Ivory; the shared functional text token corrects it. Home desktop/mobile and mobile contact screenshots were visually inspected after rendering, including the final navigation adjustment. No automated accessibility violations were found in the tested states; manual assistive-technology testing and final asset review remain launch checks.
 

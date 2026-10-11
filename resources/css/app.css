@@ -3,8 +3,10 @@
 @import '@fontsource/montserrat/latin-500.css';
 @import 'tailwindcss' source(none);
 @import '../../vendor/livewire/flux/dist/flux.css';
-@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
-@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+/* Flux's imported stylesheet registers the full library. Exclude unused families;
+   update these exclusions when introducing new components. */
+@source not '../../vendor/livewire/flux-pro/stubs';
+@source not '../../vendor/livewire/flux/stubs/resources/views/flux/{accordion,autocomplete,avatar,badge,breadcrumbs,calendar,callout,card,chart,command,context,context-menu,date-picker,editor,file-upload,heading,modal,navlist,navmenu,otp,pagination,pill,radio,separator,skeleton,slider,tab,table,tabs,toast,tooltip}';
 @source '../views/**/*.blade.php';
 
 @theme {

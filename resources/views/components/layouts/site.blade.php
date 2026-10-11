@@ -14,6 +14,18 @@
     <meta property="og:title" content="{{ $title }}">
     <meta property="og:description" content="{{ $description }}">
     <meta property="og:url" content="{{ route($page) }}">
+    <meta property="og:site_name" content="Juanovio International Trading Inc.">
+    <meta property="og:locale" content="{{ str_replace('-', '_', app()->getLocale()) === 'en' ? 'en_US' : str_replace('-', '_', app()->getLocale()) }}">
+    <meta property="og:image" content="{{ asset(config('juanovio.social_image.path')) }}">
+    <meta property="og:image:type" content="{{ config('juanovio.social_image.type') }}">
+    <meta property="og:image:width" content="{{ config('juanovio.social_image.width') }}">
+    <meta property="og:image:height" content="{{ config('juanovio.social_image.height') }}">
+    <meta property="og:image:alt" content="{{ config('juanovio.social_image.alt') }}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ $title }}">
+    <meta name="twitter:description" content="{{ $description }}">
+    <meta name="twitter:image" content="{{ asset(config('juanovio.social_image.path')) }}">
+    <meta name="twitter:image:alt" content="{{ config('juanovio.social_image.alt') }}">
     <script type="application/ld+json">{!! app(\App\Support\PageSchema::class)->toJson($page) !!}</script>
     @if(! config('juanovio.legal_reviewed') || in_array($page, ['privacy', 'terms']))<meta name="robots" content="noindex, nofollow">@endif
     @vite(['resources/css/app.css', 'resources/js/app.js'])

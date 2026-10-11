@@ -2,6 +2,8 @@
 
 The technical foundation is good, but the site cannot yet be described as having exceptionally high SEO quality or being ready for organic acquisition. This review covers repository code and the local HTTPS site, not a deployed public domain, Google indexing, search demand, backlinks, or field Core Web Vitals.
 
+Follow-up completed 2026-10-11: social metadata and CSS improvements below are implemented. See [performance results](PERFORMANCE.md) and the [deployment checklist](DEPLOYMENT.md). Local automated checks now include metadata/link verification; production readiness remains subject to business/legal review and actual hosting/mail configuration.
+
 ## Findings and priorities
 
 | Priority | Finding | Recommended action |
@@ -9,8 +11,8 @@ The technical foundation is good, but the site cannot yet be described as having
 | Launch blocker | With `LEGAL_REVIEWED=false`, all pages emit `noindex, nofollow`, robots blocks all crawling, and the sitemap has no page entries. The local site confirms the noindex setting. This is an intentional prelaunch safeguard. | Complete factual/legal review before enabling the existing gate on production. Keep preview environments private or nonindexable. |
 | High | Canonical, sitemap, Open Graph and schema URLs use Laravel route/asset helpers, which reflect request URL configuration. Local URLs correctly resolve to `https://juanovio.test/`; public domain behavior is unverified. | Configure the final HTTPS `APP_URL`, trusted proxies and host redirects; verify all metadata on production, including alternate hosts, HTTP, trailing slashes and query variants. |
 | High | Privacy and terms remain draft content, permanently noindexed by the current template, even when the global review gate is enabled. The contact flow also requires reviewed configuration. | Finalize policies, verified contact details and inquiry delivery before public launch. Update draft labels and the legal-page indexing policy deliberately. |
-| Medium | Open Graph has title, description, URL and type, but no image, image alternative text, site name or locale. Twitter card metadata is absent. | Add a rights-cleared branded share image and complete social tags. These improve sharing presentation; they are not prerequisites for indexing. |
-| Medium | Production CSS is 459.14 KB raw / 50.08 KB gzip; Tailwind scans the entire installed Flux and Flux Pro Blade component directories. | Measure production Lighthouse and Core Web Vitals. Investigate unnecessary generated component styles before changing scan rules. Preserve styles needed by interactive components. |
+| Implemented | Open Graph now includes image/alternative text, dimensions, MIME type, site name and locale. Twitter summary-card tags are present. | The supplied approved logo PNG is used unchanged. Verify previews on social platforms after deployment. |
+| Improved | CSS reduced from 459,143 to 183,247 bytes raw and from 50,089 to 26,181 bytes gzip by excluding unused Flux component sources. | Browser checks pass. Measure production Lighthouse and field Core Web Vitals; local measurements do not establish production loading speed. |
 | Medium | Core copy is readable and conservative, but short and sometimes abstract. Most headings are brand-led rather than specific to buyer/supplier search intent. | Research relevant commercial queries and add substantive, approved explanations of evaluation criteria, specifications and inquiry requirements. Create category or market pages only when useful, evidence-backed content exists. |
 | Implemented | No JSON-LD existed. | Added one safely encoded, connected JSON-LD graph per page, covered by automated tests. |
 
@@ -48,6 +50,8 @@ Schema is generated in `app/Support/PageSchema.php` and inserted server-side by 
 - Vite production build passed.
 - Playwright: 36 checks passed across three viewport sizes.
 - Local rendered homepage has one JSON-LD script, an HTTPS canonical and the expected noindex directive.
+
+Follow-up checks: 22 PHP tests, 42 browser checks, Pint and build passed after social metadata, source exclusions and read-only launch diagnostics were added. See PERFORMANCE.md for timing conditions and deployment follow-ups.
 
 After deployment, validate the public URLs with Schema.org Validator and Google's Rich Results Test, then use Search Console URL Inspection and submit the sitemap. Production crawlability, rich-result eligibility and field performance were not validated here. Structured data does not guarantee rich results or rankings.
 

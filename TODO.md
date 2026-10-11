@@ -12,15 +12,22 @@ Last updated: 2026-10-11
 
 ## Next development priorities
 
-- [ ] **Complete social sharing metadata.** AI implementation; user approval for any new artwork.
+- [x] **Complete social sharing metadata.** AI implementation; user approval for any new artwork.
   - Add an approved share image, Open Graph image/alternative text/site name/locale, and Twitter card metadata through the shared layout.
   - Done when all eight pages render consistent metadata, image URLs resolve, and the artwork remains faithful to the brand.
-- [ ] **Review CSS and loading performance.** AI investigation and implementation.
+  - Completed 2026-10-11: Open Graph and Twitter summary cards use the unchanged approved full-logo PNG. Metadata, actual dimensions, image reachability and per-page consistency are verified; social-platform previews remain a production check.
+- [x] **Review CSS and loading performance.** AI investigation and implementation.
   - Investigate the 459.14 KB raw / 50.08 KB gzip CSS build and unnecessary component styles. Measure mobile performance before and after changes.
   - Done when justified improvements preserve Flux interactions and responsive layouts, the build and browser checks pass, and measurements are recorded. Field Core Web Vitals require production traffic.
-- [ ] **Reconcile implementation documentation with the current site.** AI documentation update.
+  - Completed 2026-10-11: supported Tailwind exclusions reduce CSS to 183,247 bytes / 26,181 gzip bytes (60.1% / 47.7% smaller). Local timings and maintenance guidance are in [docs/PERFORMANCE.md](docs/PERFORMANCE.md); `npm run measure:performance` reproduces measurements.
+- [x] **Reconcile implementation documentation with the current site.** AI documentation update.
   - `docs/IMPLEMENTATION.md` still says Organization structured data is withheld and includes historical test counts. Update its current-state guidance to reflect JSON-LD and point to the SEO review.
   - Done when setup and launch instructions accurately describe the implementation and distinguish historical checks from current results.
+  - Completed 2026-10-11: implementation notes now describe schemas/social metadata, current checks and historical verification accurately.
+- [x] **Extend local accessibility and SEO checks.** AI verification.
+  - Completed 2026-10-11: all eight pages checked for metadata/schema consistency, unique titles/descriptions, internal links and share-image reachability, eager image loading and accessible form descriptions. The 42 browser checks pass across mobile/tablet/desktop. Home screenshots reviewed; manual assistive-technology and public search validation remain launch tasks.
+- [x] **Prepare deployment guidance and configuration checks.** AI preparation.
+  - Completed 2026-10-11: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) covers release preparation, production verification and rollback. `php artisan website:check` reports configured readiness without mail or mutations; expected local result is NOT READY. Deployment itself remains outstanding.
 
 ## Launch dependencies
 
@@ -68,6 +75,7 @@ Last updated: 2026-10-11
 - [x] JSON-LD on all eight pages, using Organization, WebSite, appropriate page types, breadcrumbs, and conservative opportunity lists.
 - [x] Local verification: 18 PHP tests / 279 assertions, 36 browser checks across three viewport sizes, Pint, and production build passed on 2026-10-11.
 - [x] Repository/local SEO review documented in [docs/SEO_REVIEW.md](docs/SEO_REVIEW.md). Public indexing, field performance, and Google validation remain outstanding.
+  - Latest verification after social/performance/readiness work: 22 PHP tests and 42 browser checks; Pint and production build pass. Local configuration cache was cleared to load new config keys; `.env` and launch gates were not changed.
 
 ## Reference files
 
@@ -76,3 +84,5 @@ Last updated: 2026-10-11
 - [Draft content brief](WEBSITE_CONTENT.md)
 - [Implementation notes](docs/IMPLEMENTATION.md)
 - [SEO review](docs/SEO_REVIEW.md)
+- [Performance measurements](docs/PERFORMANCE.md)
+- [Deployment checklist](docs/DEPLOYMENT.md)

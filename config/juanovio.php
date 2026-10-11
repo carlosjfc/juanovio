@@ -5,6 +5,13 @@ return [
     'recipient' => env('INQUIRY_RECIPIENT'),
     'legal_reviewed' => env('LEGAL_REVIEWED', false),
     'logo_path' => env('BRAND_LOGO_PATH'),
+    'social_image' => [
+        'path' => 'brand/original/juanovio-logo-full.png',
+        'width' => 1448,
+        'height' => 1086,
+        'type' => 'image/png',
+        'alt' => 'Juanovio International Trading Inc. — approved company logo',
+    ],
     'brand_assets' => [
         'horizontal' => ['path' => 'brand/optimized/juanovio-logo-horizontal-640.webp', 'width' => 640, 'height' => 480, 'variants' => [640, 960], 'base' => 'juanovio-logo-horizontal'],
         'full' => ['path' => 'brand/optimized/juanovio-logo-full-480.webp', 'width' => 480, 'height' => 360, 'variants' => [480, 720], 'base' => 'juanovio-logo-full'],
