@@ -1,6 +1,25 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
+test('CTA arrows are decorative SVGs rather than platform-dependent glyphs', async ({ page }) => {
+    for (const path of ['/', '/trade']) {
+        await page.goto(path);
+        const links = page.locator('.text-link');
+        expect(await links.count()).toBeGreaterThan(0);
+        for (const link of await links.all()) {
+            await expect(link).not.toContainText('↗');
+            await expect(link.locator('svg.cta-arrow')).toHaveCount(1);
+            await expect(link.locator('svg')).toHaveAttribute('aria-hidden', 'true');
+            expect(await link.evaluate(element => {
+                const icon = element.querySelector('svg');
+                const size = icon.getBoundingClientRect();
+                return Math.abs(size.width - parseFloat(getComputedStyle(element).fontSize)) < 1 && Math.abs(size.width - size.height) < 1;
+            })).toBe(true);
+        }
+        await expect(page.getByRole('link', { name: path === '/' ? 'Explore What We Trade' : 'Introduce Your Supply', exact: true })).toBeVisible();
+    }
+});
+
 test('back to top appears after scrolling and supports keyboard and reduced motion', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');

@@ -91,6 +91,8 @@ Initial verification: 13 PHP tests (124 assertions) and 30 browser tests passed;
 
 ## Layout refinement
 
+Text CTAs now use the reusable `cta-link` Blade component with Flux's installed `arrow-up-right` outline SVG icon. The previous Unicode arrow could become a blue emoji on iPhone Safari. SVG geometry and currentColor provide consistent rendering without system glyph or emoji fallback; decorative arrows are hidden from assistive technology and CTA text retains the approved Montserrat font. Arrow size and spacing use centralized CSS tokens.
+
 Back-to-top intentionally focuses the header so keyboard navigation resumes at the top. The shared focus-visible rule previously drew a purple outline around that entire noninteractive container, including on mobile after menu navigation. A header-only focus override removes that outline while preserving visible focus on links and buttons. Browser regression checks cover menu navigation followed by back-to-top, and confirm Tab then focuses the logo link with its normal visible outline.
 
 The live site was inspected in Chrome and through automated Chromium checks. The duplicated desktop current-page underline was removed, retaining Flux's single indicator. Header height was reduced from 241px to 112px on desktop, and from 112px to 80px on mobile. Centralized section padding is now 36–60px rather than 56–112px; hero, breadcrumb, card, and closing spacing were tightened. Display headings wrap more efficiently, category introductions sit beside their rows on desktop, and mobile footer navigation uses two columns. Four-section content such as the process steps now uses a balanced two-by-two grid on wider screens rather than a three-plus-one arrangement.
