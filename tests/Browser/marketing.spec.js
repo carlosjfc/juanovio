@@ -27,6 +27,17 @@ test('back to top appears after scrolling and supports keyboard and reduced moti
     await expect(button).toBeHidden();
     await page.evaluate(() => window.scrollTo(0, 800));
     await expect(button).toBeVisible();
+    if (page.viewportSize().width <= 640) {
+        const spacing = await button.evaluate(element => {
+            const container = getComputedStyle(element.closest('.back-to-top'));
+            const bounds = element.getBoundingClientRect();
+            return { bottom: parseFloat(container.bottom), right: parseFloat(container.right), width: bounds.width, height: bounds.height };
+        });
+        expect(spacing.bottom).toBeGreaterThanOrEqual(64);
+        expect(spacing.right).toBeGreaterThanOrEqual(24);
+        expect(spacing.width).toBeGreaterThanOrEqual(48);
+        expect(spacing.height).toBeGreaterThanOrEqual(48);
+    }
     const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
     expect(results.violations).toEqual([]);
     await button.focus();

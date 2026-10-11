@@ -91,6 +91,8 @@ Initial verification: 13 PHP tests (124 assertions) and 30 browser tests passed;
 
 ## Layout refinement
 
+On phone-width screens, back-to-top now uses a 48px target, a 24px right inset and a 64px bottom inset, plus any browser-reported safe-area insets. The extra baseline clearance keeps the control away from the bottom corner even when iPhone Chrome reports no bottom safe area; Safari can add its reported inset. Desktop positioning is retained. Browser checks verify the minimum mobile spacing and target size; physical iPhone Safari/Chrome toolbar states still require device verification after deployment.
+
 Text CTAs now use the reusable `cta-link` Blade component with Flux's installed `arrow-up-right` outline SVG icon. The previous Unicode arrow could become a blue emoji on iPhone Safari. SVG geometry and currentColor provide consistent rendering without system glyph or emoji fallback; decorative arrows are hidden from assistive technology and CTA text retains the approved Montserrat font. Arrow size and spacing use centralized CSS tokens.
 
 Back-to-top intentionally focuses the header so keyboard navigation resumes at the top. The shared focus-visible rule previously drew a purple outline around that entire noninteractive container, including on mobile after menu navigation. A header-only focus override removes that outline while preserving visible focus on links and buttons. Browser regression checks cover menu navigation followed by back-to-top, and confirm Tab then focuses the logo link with its normal visible outline.
