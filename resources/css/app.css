@@ -54,6 +54,7 @@ p { max-width: 68ch; } a { text-underline-offset: .3em; } a:hover { text-decorat
 :focus-visible { outline: 3px solid var(--color-plum); outline-offset: 5px; }
 /* Back-to-top moves focus here; the container is not an interactive control. */
 .site-header:focus { outline: none; }
+.mobile-menu:focus { outline: none; }
 .wrap { width: min(var(--width-content), calc(100% - 3rem)); margin-inline: auto; }
 .site-header { display: flex; align-items: center; justify-content: space-between; gap: 2rem; min-height: 7rem; border-bottom: 1px solid var(--color-sand); }
 /* Render the entire original canvas; reserve space for the visible lockup rather than its surrounding transparency. */

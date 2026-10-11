@@ -68,6 +68,29 @@ test('menu navigation followed by back-to-top does not outline the header', asyn
     expect(await page.locator('#page-top').evaluate(header => getComputedStyle(header).outlineStyle)).toBe('none');
 });
 
+test('reopening the mobile menu after back-to-top does not outline the panel', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    const trigger = page.getByRole('button', { name: 'Open navigation menu' });
+    test.skip(!await trigger.isVisible(), 'Mobile navigation only');
+    await trigger.click();
+    await page.getByRole('menuitem', { name: 'What We Trade' }).click();
+    await page.evaluate(() => window.scrollTo(0, 800));
+    await page.getByRole('button', { name: 'Back to top', exact: true }).click();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+    await trigger.click();
+    const menu = page.getByRole('menu', { name: 'Mobile navigation' });
+    await expect(menu).toBeVisible();
+    expect(await menu.evaluate(element => getComputedStyle(element).outlineStyle)).toBe('none');
+    await page.keyboard.press('ArrowDown');
+    const active = menu.locator('[data-active]');
+    await expect(active).toHaveCount(1);
+    expect(await active.evaluate(element => getComputedStyle(element).outlineStyle)).toBe('solid');
+    await page.keyboard.press('Escape');
+    await expect(menu).toBeHidden();
+    await expect(trigger).toBeFocused();
+});
+
 for (const path of ['/', '/about', '/trade', '/how-we-work', '/markets', '/contact', '/privacy', '/terms']) {
     test(`${path} is accessible and fits the viewport`, async ({ page }, testInfo) => {
         const errors = [];
