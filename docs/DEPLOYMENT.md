@@ -4,6 +4,8 @@ Prepared 2026-10-11. No production deployment has been performed. Domain, hostin
 
 ## Prepare the release
 
+Analytics setup, consent behavior, required GTM tags and preview checks are documented in [ANALYTICS.md](ANALYTICS.md). Enable production analytics only after completing those checks; the application now selects one provider and does not load tags before permission. Publishing the Google container is a separate release step.
+
 - [ ] Approve business copy and finalize privacy/terms, contact details, processor information and retention. Replace draft labels in the footer and choose the legal-page indexing policy; setting a flag does not rewrite these pages.
 - [ ] Confirm the canonical public hostname and HTTPS certificate. Redirect HTTP and alternate hosts to that origin at the hosting layer; configure trusted proxies/hosts for the actual infrastructure.
 - [ ] Provision PHP compatible with the installed Laravel version, required extensions, and a web root pointing to `public/`. Make `storage/` and `bootstrap/cache/` writable by the application, without exposing them publicly.

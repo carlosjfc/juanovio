@@ -2,8 +2,12 @@
 
 return [
     'analytics' => [
+        'enabled' => env('ANALYTICS_ENABLED', env('APP_ENV') === 'production'),
+        'driver' => env('ANALYTICS_DRIVER', 'gtm'),
         'ga4_id' => env('GOOGLE_ANALYTICS_ID', 'G-Y1RN3SLGFQ'),
         'gtm_id' => env('GOOGLE_TAG_MANAGER_ID', 'GTM-TFMSHHLF'),
+        'consent_version' => env('ANALYTICS_CONSENT_VERSION', '2026-10-11'),
+        'consent_max_age_days' => 180,
     ],
     'inquiries_enabled' => env('INQUIRIES_ENABLED', false),
     'recipient' => env('INQUIRY_RECIPIENT'),

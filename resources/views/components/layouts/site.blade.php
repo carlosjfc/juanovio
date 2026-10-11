@@ -33,7 +33,6 @@
     @livewireStyles
 </head>
 <body>
-    <x-analytics.body />
     <a class="skip-link" href="#main">Skip to content</a>
     <header id="page-top" class="site-header wrap" tabindex="-1">
         <a class="brand" href="{{ route('home') }}" aria-label="Juanovio International Trading Inc. — Home">
@@ -55,6 +54,10 @@
         <nav class="footer-navigation" aria-label="Footer navigation">@foreach(config('juanovio.navigation') as $name => $label)<a href="{{ route($name) }}">{{ $label }}</a>@endforeach</nav>
         <div><nav class="footer-legal" aria-label="Legal navigation"><a href="{{ route('privacy') }}">Privacy policy · Draft</a><a href="{{ route('terms') }}">Terms of use · Draft</a></nav><p class="footer-copyright">© {{ date('Y') }} Juanovio</p></div>
     </div></footer>
+    @if(\App\Support\Analytics::settings())
+        <div class="wrap"><flux:button type="button" variant="ghost" data-analytics-preferences>Analytics preferences</flux:button></div>
+    @endif
+    <x-analytics.body />
     <div class="back-to-top" x-data="{ visible: window.scrollY > 400 }" x-cloak x-show="visible" @scroll.window.throttle.100ms="visible = window.scrollY > 400">
         <flux:button variant="primary" icon="arrow-up" icon:variant="outline" aria-label="Back to top" title="Back to top" @click="document.getElementById('page-top').focus({ preventScroll: true }); window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })" />
     </div>

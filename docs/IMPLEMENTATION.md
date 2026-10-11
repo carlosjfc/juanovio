@@ -59,6 +59,8 @@ Keep mail credentials and Flux authentication out of Git. Production should use 
 
 ## Content and launch limitations
 
+Analytics was revised on 2026-10-11 to replace simultaneous direct GA4/GTM loading with a configurable single provider, consent-gated loading, browser preferences and success-only inquiry events. The privacy draft was updated. See [ANALYTICS.md](ANALYTICS.md) for configuration, event contracts, testing, limitations and required external GTM publication.
+
 All copy remains a draft for factual review. Categories are interests, not confirmed inventory. Guyana is described as a pilot under evaluation. No supplier identities, corporate credentials, addresses, phone numbers, testimonials, statistics, or active route maps were invented. The founder's family story is withheld pending explicit approval. JSON-LD now describes the supplied company identity and approved logo, WebSite, page types, breadcrumbs, and conservative opportunity lists. Open Graph and Twitter summary cards use the supplied full-logo PNG unchanged, with actual dimensions and alternative text; no new artwork or social account identity was invented.
 
 The legal routes are explicitly marked as drafts and noindexed. Until `LEGAL_REVIEWED` is true, all pages are noindexed, robots disallows crawling, and the sitemap is empty. That flag does not rewrite policy text or certify compliance: approved copy must be edited into the version-controlled content first. Any additional Organization facts require verification before adding them to structured data.

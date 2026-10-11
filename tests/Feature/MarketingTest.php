@@ -6,23 +6,29 @@ use Tests\TestCase;
 
 class MarketingTest extends TestCase
 {
-    public function test_google_tags_render_once_in_the_correct_locations_on_every_page(): void
+    public function test_only_the_selected_provider_is_exposed_on_every_page(): void
     {
+        config(['juanovio.analytics.enabled' => true, 'juanovio.analytics.driver' => 'gtm']);
         foreach (array_keys(config('website')) as $page) {
             $html = $this->get(route($page))->assertOk()->getContent();
-            $headEnd = strpos($html, '</head>');
-            $bodyStart = strpos($html, '<body>');
-            $fallback = strpos($html, '<noscript><iframe');
-
-            $this->assertSame(1, substr_count($html, 'https://www.googletagmanager.com/gtag/js?id=G-Y1RN3SLGFQ'));
-            $this->assertSame(1, substr_count($html, 'https://www.googletagmanager.com/ns.html?id=GTM-TFMSHHLF'));
-            $this->assertLessThan($headEnd, strpos($html, 'https://www.googletagmanager.com/gtag/js'));
-            $this->assertLessThan($headEnd, strpos($html, 'https://www.googletagmanager.com/gtm.js'));
-            $this->assertGreaterThan($bodyStart, $fallback);
-            $this->assertLessThan(strpos($html, '<a class="skip-link"'), $fallback);
-            $this->assertStringContainsString("'GTM-TFMSHHLF'", $html);
-            $this->assertStringContainsString("gtag('config', 'G-Y1RN3SLGFQ')", $html);
+            $this->assertSame(1, substr_count($html, 'id="analytics-settings"'));
+            $this->assertStringContainsString('GTM-TFMSHHLF', $html);
+            $this->assertStringNotContainsString('G-Y1RN3SLGFQ', $html);
+            $this->assertStringNotContainsString('googletagmanager.com', $html);
+            $this->assertStringContainsString('data-analytics-preferences', $html);
         }
+    }
+
+    public function test_direct_provider_and_disabled_or_invalid_configuration(): void
+    {
+        config(['juanovio.analytics.enabled' => true, 'juanovio.analytics.driver' => 'gtag']);
+        $this->get('/')->assertSee('G-Y1RN3SLGFQ')->assertDontSee('GTM-TFMSHHLF');
+        config(['juanovio.analytics.enabled' => false]);
+        $this->get('/')->assertDontSee('id="analytics-settings"', false)->assertDontSee('data-analytics-preferences');
+        config(['juanovio.analytics.enabled' => true, 'juanovio.analytics.ga4_id' => '"><script>alert(1)</script>']);
+        $this->get('/')->assertDontSee('id="analytics-settings"', false);
+        config(['juanovio.analytics.driver' => 'unsupported']);
+        $this->get('/')->assertDontSee('id="analytics-settings"', false);
     }
 
     public function test_social_metadata_matches_each_page_and_the_approved_image(): void

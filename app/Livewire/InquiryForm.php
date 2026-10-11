@@ -104,6 +104,7 @@ class InquiryForm extends Component
         }
         $this->reset(['name', 'company', 'email', 'country', 'product', 'quantity', 'route', 'message', 'consent']);
         $this->sent = true;
+        $this->dispatch('inquiry-submitted', inquiry_type: $data['type']);
     }
 
     public function render()

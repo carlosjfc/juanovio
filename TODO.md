@@ -63,7 +63,7 @@ Last updated: 2026-10-11
   - Done per page when factual review, metadata/schema, internal links, accessibility, and route checks are complete.
 - [ ] **Establish ongoing monitoring and maintenance.** User operational preferences and AI support.
   - Agree how to review Search Console coverage, inquiry delivery, dependency/security updates, and production performance. Decide whether privacy-reviewed analytics are needed.
-  - Done when ownership, review cadence, and any required tools are documented. No analytics are currently configured.
+  - Done when ownership, review cadence, and any required tools are documented. Analytics code and consent controls are implemented; follow [docs/ANALYTICS.md](docs/ANALYTICS.md) to verify ownership, configure/publish the GTM tags, approve disclosures and validate live reporting.
 
 ## Completed baseline
 

@@ -31,7 +31,9 @@ class InquiryTest extends TestCase
     {
         $component = $this->filled();
         $this->travel(4)->seconds();
-        $component->call('submit')->assertHasNoErrors()->assertSet('sent', true)->assertSet('email', '')->call('submit');
+        $component->call('submit')->assertHasNoErrors()->assertSet('sent', true)->assertSet('email', '')
+            ->assertDispatched('inquiry-submitted', fn ($event, $params) => $params === ['inquiry_type' => 'buy']);
+        $component->call('submit')->assertNotDispatched('inquiry-submitted');
         Notification::assertSentOnDemand(TradeInquiry::class, fn ($notification, $channels, $notifiable) => $notifiable->routes['mail'] === 'inquiries@example.test' && $notification->inquiry['product'] === 'Construction materials');
         Notification::assertCount(1);
     }
@@ -41,6 +43,7 @@ class InquiryTest extends TestCase
         $component = Livewire::test(InquiryForm::class)->set('type', 'supply')->set('email', 'invalid');
         $this->travel(4)->seconds();
         $component->call('submit')->assertHasErrors(['name', 'company', 'email', 'country', 'product', 'message', 'consent']);
+        $component->assertNotDispatched('inquiry-submitted');
         Notification::assertNothingSent();
     }
 
@@ -88,6 +91,7 @@ class InquiryTest extends TestCase
         $component = $this->filled();
         $this->travel(4)->seconds();
         $component->call('submit')->assertHasErrors('submission')->assertSet('sent', false)->assertSet('email', 'buyer@example.test');
+        $component->assertNotDispatched('inquiry-submitted');
     }
 
     public function test_email_content_is_escaped(): void
