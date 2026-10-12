@@ -64,6 +64,11 @@ This page-view event tag is intentional: it disables automatic page views and se
 
 ### Production setup evidence supplied by the user
 
+- [x] Subsequent GA4 Realtime screenshots for the Juanovio property show `generate_lead` with event count 1 and key-event count 1. The parameter drill-down shows `inquiry_type=partnership` with count 1, consistent with the delivered partnership test. This verifies GA4 receipt, inquiry-type mapping, and key-event reporting for that test. It does not independently show the GTM tag firing trace, prove absence of all personal data in transmitted hits, or verify rejected/failed-submission cases. Earlier notes describing successful inquiry receipt as unverified are superseded by this evidence.
+- [ ] The Realtime parameter list also includes `currency`; its value and source are not visible. The application does not supply currency or monetary value. Inspect the published Google tag/event settings for inherited parameters or configured key-event values before treating the full payload as verified.
+
+- Subsequent inquiry screenshots verify the website success message, Resend delivery to the configured company recipient, and receipt of a partnership inquiry in Hostinger Mail's Spam folder. The email visibly includes every submitted business field and the privacy acknowledgment; personal values are not copied into this document. These screenshots verify email delivery and form feedback only, not GTM tag firing or GA4 receipt of `generate_lead`. Spam placement remains unresolved.
+
 - Container: `GTM-TFMSHHLF`, Juanovio / `juanovio.com`.
 - User identified the current published version as **Version 3 — adding datalayer and consent**. Its version summary shows **Published 10/11/2026, 5:58 PM** (timezone not shown). Publisher's account is visible in the screenshot; personal email is not reproduced here.
 - The published version contains the three expected tags: `Juanovio Prod Tag`, `Juanovio - Page view`, and `Juanovio - Inquiry submitted`; two Custom Event triggers; and four user-defined Data Layer Variables plus five built-in variables (nine total).

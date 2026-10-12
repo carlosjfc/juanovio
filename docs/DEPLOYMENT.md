@@ -38,6 +38,8 @@ The marketing site does not require database migrations with the current file se
 - [ ] Check mobile/tablet/desktop layouts, menu keyboard behavior, skip link, visible focus, form descriptions and feedback. Automated checks supplement manual accessibility review.
 - [ ] Measure mobile Lighthouse with production caching/compression enabled. Monitor field Core Web Vitals once there is sufficient traffic; local timings do not predict public performance.
 - [ ] After policy approval and mail configuration, enable inquiries and submit controlled buyer/supplier/partnership/general tests. Verify inbox arrival, reply-to, error recovery and retention; do not commit message content.
+- [x] User-supplied screenshots verify one partnership inquiry: website success confirmation, Resend Delivered status to the configured inquiry recipient, and receipt in Hostinger Mail with all submitted business fields and privacy acknowledgment. Delivery reached Spam, not Inbox. Personal field values and dashboard identifiers are not reproduced here.
+- [ ] Resolve Spam placement and verify Inbox delivery. Buyer, supplier, and general live submissions, reply-to behavior, error recovery, and operational retention remain separate checks.
 - [ ] After business/legal review and publication readiness, enable the review gate and verify robots, page directives and the sitemap. Privacy/terms currently remain noindexed until that policy is explicitly changed.
 - [ ] Run Schema.org Validator and Google Rich Results Test on public URLs. Verify the Search Console property, inspect URLs and submit the sitemap. Indexing and rich results are not guaranteed.
 
