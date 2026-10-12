@@ -95,6 +95,19 @@ class MarketingTest extends TestCase
             ->assertDontSee('Public inquiry collection remains disabled');
     }
 
+    public function test_terms_are_final_and_preserve_separate_transaction_and_statutory_rights(): void
+    {
+        $this->get('/terms')->assertOk()
+            ->assertSee('Effective October 11, 2026')
+            ->assertSee('Separate agreements govern any resulting trade transaction.')
+            ->assertSee('Submission and any automated acknowledgment do not constitute acceptance of an order')
+            ->assertSee('subject to mandatory protections under applicable law')
+            ->assertSee('mailto:privacy@juanovio.com', false)
+            ->assertDontSee('Terms of Use — Draft')
+            ->assertDontSee('Terms of use · Draft')
+            ->assertDontSee('Matters for legal review');
+    }
+
     public function test_categories_and_market_statuses_are_conservative(): void
     {
         $this->get('/trade')->assertSee('not a product catalog or binding offer')->assertSee('subject to confirmation');
