@@ -12,7 +12,7 @@
 @endphp
 <picture>
     @if($compact)
-        <source media="(max-width: 64rem)" srcset="{{ $compactSrcset }}" sizes="72px" width="96" height="96" type="image/webp">
+        <source media="(max-width: 80rem)" srcset="{{ $compactSrcset }}" sizes="72px" width="96" height="96" type="image/webp">
     @endif
     <img {{ $attributes }} src="{{ asset($image['path']) }}" @if($srcset) srcset="{{ $srcset }}" sizes="{{ $variant === 'full' ? '(max-width: 40rem) 176px, 240px' : '320px' }}" @endif width="{{ $image['width'] }}" height="{{ $image['height'] }}" alt="Juanovio International Trading Inc." loading="{{ $lazy ? 'lazy' : 'eager' }}" decoding="async">
 </picture>

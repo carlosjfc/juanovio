@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Http\Middleware\SetLocale;
 use App\Notifications\TradeInquiry;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
@@ -49,11 +50,21 @@ class InquiryForm extends Component
     #[Locked]
     public bool $sent = false;
 
+    #[Locked]
+    public string $locale = 'en';
+
     public function mount(): void
     {
+        $this->locale = app()->getLocale();
         $type = request()->query('type');
         $this->type = is_string($type) && array_key_exists($type, config('juanovio.types')) ? $type : 'general';
         $this->startedAt = now()->timestamp;
+    }
+
+    public function hydrate(): void
+    {
+        app()->setLocale($this->locale);
+        SetLocale::translateContent();
     }
 
     public function available(): bool
@@ -76,20 +87,20 @@ class InquiryForm extends Component
             return;
         }
         if (! $this->available()) {
-            $this->addError('submission', 'The inquiry form is not accepting submissions yet. Please return later.');
+            $this->addError('submission', __('The inquiry form is not accepting submissions yet. Please return later.'));
 
             return;
         }
 
         $key = 'inquiry:'.hash('sha256', request()->ip().'|'.config('app.key'));
         if (RateLimiter::tooManyAttempts($key, 5)) {
-            $this->addError('submission', 'Too many attempts. Please try again in a few minutes.');
+            $this->addError('submission', __('Too many attempts. Please try again in a few minutes.'));
 
             return;
         }
         RateLimiter::hit($key, 600);
         if ($this->website !== '' || now()->timestamp - $this->startedAt < 3) {
-            $this->addError('submission', 'Your inquiry could not be submitted. Please wait a moment and try again.');
+            $this->addError('submission', __('Your inquiry could not be submitted. Please wait a moment and try again.'));
 
             return;
         }
@@ -116,7 +127,7 @@ class InquiryForm extends Component
             Notification::route('mail', config('juanovio.recipient'))->notify(new TradeInquiry($data));
         } catch (Throwable $exception) {
             Log::warning('Inquiry transport failed.', ['exception_type' => get_class($exception)]);
-            $this->addError('submission', 'Your inquiry could not be sent. Please try again later.');
+            $this->addError('submission', __('Your inquiry could not be sent. Please try again later.'));
 
             return;
         }

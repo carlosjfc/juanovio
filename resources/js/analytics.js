@@ -103,9 +103,8 @@ document.addEventListener('click', (event) => {
         window.location.reload();
         return;
     }
-    banner.querySelector('[data-analytics-status]').textContent = saved
-        ? 'Your analytics preference has been saved.'
-        : 'Your choice applies to this page. Browser storage is unavailable; preferences cannot be saved.';
+    const status = banner.querySelector('[data-analytics-status]');
+    status.textContent = saved ? status.dataset.saved : status.dataset.unavailable;
     document.querySelector('[data-analytics-preferences]').focus();
     refresh();
 });

@@ -19,7 +19,7 @@ async function setup(page, driver = 'gtm', stored, unavailable = false) {
         <section data-analytics-banner hidden aria-label="Analytics choice">
         <button data-analytics-choice="accept">Allow analytics</button>
         <button data-analytics-choice="reject">Reject analytics</button>
-        <p data-analytics-status role="status"></p></section></main></body></html>`);
+        <p data-analytics-status role="status" data-saved="Your analytics preference has been saved." data-unavailable="Your choice applies to this page. Browser storage is unavailable; preferences cannot be saved."></p></section></main></body></html>`);
     if (unavailable) await page.evaluate(() => {
         Object.defineProperty(window, 'localStorage', { get() { throw new Error('Storage unavailable'); } });
     });

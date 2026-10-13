@@ -19,6 +19,9 @@
     </source>
     <php>
         <env name="APP_ENV" value="testing" force="true"/>
+        <env name="LEGAL_REVIEWED" value="false" force="true"/>
+        <env name="INQUIRIES_ENABLED" value="false" force="true"/>
+        <env name="ANALYTICS_ENABLED" value="false" force="true"/>
         <env name="APP_CONFIG_CACHE" value="bootstrap/cache/testing-config.php" force="true"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>

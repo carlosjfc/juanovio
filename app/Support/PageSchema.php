@@ -7,8 +7,8 @@ class PageSchema
     public function forPage(string $page): array
     {
         $content = config('website.'.$page);
-        $home = route('home');
-        $url = route($page);
+        $home = Locale::url('home');
+        $url = Locale::url($page);
         $organizationId = $home.'#organization';
         $websiteId = $home.'#website';
         $label = config('juanovio.navigation.'.$page, $content['heading']);
@@ -63,7 +63,7 @@ class PageSchema
                 '@type' => 'BreadcrumbList',
                 '@id' => $url.'#breadcrumb',
                 'itemListElement' => [
-                    ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $home],
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => __('Home'), 'item' => $home],
                     ['@type' => 'ListItem', 'position' => 2, 'name' => $label, 'item' => $url],
                 ],
             ];
