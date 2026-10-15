@@ -85,6 +85,9 @@ p { max-width: 68ch; } a { text-underline-offset: .3em; } a:hover { text-decorat
 .section { padding-block: var(--space-section); } .soft-section { padding-block: var(--space-section); background: var(--color-paper); }
 .cards { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,17rem),1fr)); gap: var(--space-content); } .soft-section .cards { margin-top: var(--space-content); }
 .card { border-top: 1px solid var(--color-sand); padding-top: 1.25rem; } .card h3 { margin-block: .75rem; } .card p { color: var(--color-muted); font-size: .85rem; margin-block: 1rem; } .card .text-link { margin-top: .5rem; }
+.market-panel { min-width: 0; }
+.market-countries { list-style: disc; padding-inline-start: 1.5rem; color: var(--color-ink); font-size: .85rem; overflow-wrap: anywhere; }
+.editorial .text-link { margin-top: 1rem; }
 .index { color: var(--color-walnut); font-size: .7rem; letter-spacing: .1em; } .section-intro p:not(.eyebrow) { color: var(--color-muted); font-size: .85rem; margin-top: 1rem; }
 .category-list { margin-top: var(--space-content); } .category-list article { display: grid; grid-template-columns: 2rem 1fr; border-top: 1px solid var(--color-sand); padding-block: 1.5rem; gap: 1rem; } .category-list p { font-size: .85rem; color: var(--color-muted); margin-top: .75rem; }
 .editorial { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,20rem),1fr)); gap: var(--space-content); border-top: 1px solid var(--color-sand); } .editorial h2 { font-size: 2.6rem; } .editorial p { margin-top: 1rem; font-size: .85rem; color: var(--color-muted); }

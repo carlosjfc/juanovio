@@ -13,7 +13,7 @@
                     <flux:input wire:model="name" :label="__('Full name')" autocomplete="name" required maxlength="120" />
                     <flux:input wire:model="company" :label="__('Company')" autocomplete="organization" required maxlength="160" />
                     <flux:input wire:model="email" :label="__('Business email')" type="email" autocomplete="email" required maxlength="254" />
-                    <flux:input wire:model="country" :label="__('Country')" autocomplete="country-name" required maxlength="100" />
+                    <flux:input wire:model="country" :label="__('Your country')" autocomplete="country-name" required maxlength="100" />
                     <div class="form-full"><flux:select wire:model="category" :label="__('Category of interest')" :placeholder="__('Select a category')" :required="in_array($type, ['buy', 'supply'])">@foreach(config('juanovio.categories') as $value => $category)<flux:select.option value="{{ $value }}">{{ $category['title'] }}</flux:select.option>@endforeach<flux:select.option value="unsure">{{ __("Not sure yet") }}</flux:select.option></flux:select></div>
                     <div class="form-full"><flux:input wire:model="product" :label="__('Product / specifications')" :required="in_array($type, ['buy', 'supply'])" maxlength="200" /></div>
                     <flux:input wire:model="quantity" :label="__('Estimated quantity (optional)')" type="number" min="0" step="any" max="999999999999" />

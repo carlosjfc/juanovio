@@ -166,6 +166,20 @@ class InquiryTest extends TestCase
         }
     }
 
+    public function test_unlisted_countries_remain_valid_inquiry_locations_in_both_languages(): void
+    {
+        foreach (['en', 'es'] as $locale) {
+            app()->setLocale($locale);
+            $component = $this->filled()->set('country', 'Canada')
+                ->set('origin', 'Portugal')->set('destination', 'Costa Rica');
+            $this->travel(4)->seconds();
+            $component->call('submit')->assertHasNoErrors()->assertSet('sent', true);
+            Notification::assertSentOnDemand(TradeInquiry::class, fn ($notification) => $notification->inquiry['country'] === 'Canada'
+                && $notification->inquiry['origin'] === 'Portugal' && $notification->inquiry['destination'] === 'Costa Rica');
+        }
+        Notification::assertCount(2);
+    }
+
     public function test_location_lengths_are_bounded_and_email_labels_are_distinct(): void
     {
         $component = $this->filled()->set('origin', str_repeat('a', 201))->set('destination', str_repeat('b', 201));

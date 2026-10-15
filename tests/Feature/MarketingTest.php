@@ -111,7 +111,8 @@ class MarketingTest extends TestCase
     public function test_categories_and_market_statuses_are_conservative(): void
     {
         $this->get('/trade')->assertSee('not a product catalog or binding offer')->assertSee('subject to confirmation');
-        $this->get('/markets')->assertSee('Under evaluation')->assertSee('pilot focus, not the full geographic scope');
+        $this->get('/markets')->assertSee('Listed countries reflect our commercial development interests')
+            ->assertSee('not guaranteed product availability or established shipping routes');
         $this->get('/about')->assertDontSee('family heritage');
     }
 

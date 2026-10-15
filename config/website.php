@@ -2,14 +2,14 @@
 
 return [
     'home' => [
-        'title' => 'Juanovio International Trading | Cross-Border Trade Opportunities',
-        'description' => 'An international trading venture connecting commercial opportunities, product supply, and buyers across markets.',
+        'title' => 'Juanovio | International Sourcing & Trade Development',
+        'description' => 'Explore sourcing and trade opportunities across multiple origins and Caribbean destination markets. Connect with Juanovio as a buyer, supplier, or partner.',
         'eyebrow' => 'International trading house',
         'heading' => 'Building Connections. Moving Trade Forward.',
         'intro' => 'Juanovio International Trading develops cross-border commercial opportunities by connecting supply, demand, and the people behind successful trade. Our approach is built on careful coordination, transparent communication, and long-term relationships.',
         'sections' => [
             ['title' => 'Trade without narrow boundaries', 'text' => 'From construction inputs to agricultural and food commodities, our interests are shaped by market demand, reliable supply, and practical commercial opportunities.'],
-            ['title' => 'Markets in motion', 'text' => 'Our initial work is focused on evaluating opportunities between supply markets and Guyana, with a model designed to expand to other destinations and origins as relationships and demand develop.'],
+            ['title' => 'Multiple Origins. A Broader Regional Focus.', 'text' => 'We are developing sourcing and destination-market opportunities across the Caribbean and the Americas, with selected international origins also under consideration. Our current commercial priority is cement, while other product categories are evaluated according to demand and commercial fit.', 'cta' => 'Explore Our Markets'],
         ],
     ],
     'about' => [
@@ -25,8 +25,8 @@ return [
         ],
     ],
     'trade' => [
-        'title' => 'Trade Categories | Juanovio International Trading',
-        'description' => 'Explore categories of interest across construction materials, agriculture, food commodities, and other suitable traded goods.',
+        'title' => 'Trade Categories & Sourcing | Juanovio',
+        'description' => 'Cement-focused market development, with other construction materials, flour, and commercial goods evaluated case by case. Discuss a sourcing opportunity.',
         'eyebrow' => 'Categories of interest',
         'heading' => 'Products Change. Our Commitment to Sound Trade Does Not.',
         'intro' => 'We evaluate commercial opportunities across a growing range of product categories. Each inquiry is assessed individually based on specifications, available supply, destination requirements, and transaction feasibility.',
@@ -48,12 +48,16 @@ return [
         'disclosure' => 'Commercial engagement, counterparties, product availability, regulatory requirements, and final terms are evaluated case by case. No shipment, sourcing, or financial outcome is guaranteed.',
     ],
     'markets' => [
-        'title' => 'International Markets | Juanovio International Trading',
-        'description' => 'An initial market focus under evaluation, with a model open to additional origins and destinations.',
-        'eyebrow' => 'Origins & destinations',
-        'heading' => 'Rooted in Purpose. Open to the World.',
-        'intro' => 'Our model is designed to connect opportunities across origins and destinations, without limiting the business to one route or one product.',
-        'sections' => [['title' => 'Country-aware evaluation', 'text' => 'Each market presents its own requirements for standards, import permissions, customs procedures, documentation, and delivery terms. These must be assessed for each transaction.']],
+        'title' => 'Sourcing & Destination Markets | Juanovio',
+        'description' => 'Explore Juanovio\'s sourcing interests and destination markets across the Caribbean and the Americas, with selected international origins under evaluation.',
+        'eyebrow' => 'Sourcing & destination markets',
+        'heading' => 'International Sourcing. Regional Opportunity.',
+        'intro' => 'Juanovio develops cross-border trade opportunities around buyer demand, suitable supply, and practical logistics. We are evaluating sourcing options in Latin America and selected international markets, alongside destination opportunities across the Caribbean and neighboring markets in the Americas.',
+        'sections' => [
+            ['title' => 'Our Current Commercial Focus', 'text' => 'Cement is our current priority for sourcing and market development. We evaluate opportunities across multiple origins and destinations, rather than limiting the business to a single trade route. Other product categories are considered according to buyer demand and commercial fit.'],
+            ['title' => 'Have Another Market in Mind?', 'text' => 'The countries shown are not an exclusive list. We welcome inquiries involving other origins and destinations and assess each opportunity according to product requirements, suitable counterparties, applicable trade requirements, and logistics feasibility.'],
+        ],
+        'disclosure' => 'Listed countries reflect our commercial development interests, not guaranteed product availability or established shipping routes. Each proposed transaction requires its own evaluation and agreement.',
     ],
     'contact' => [
         'title' => 'Contact Juanovio | Buying, Supply & Partnerships',
@@ -61,6 +65,7 @@ return [
         'eyebrow' => 'Begin a conversation',
         'heading' => 'Let’s Start a Meaningful Conversation.',
         'intro' => 'Whether you’re seeking a product, offering supply, or exploring a commercial partnership, tell us about the opportunity and the market you have in mind.',
+        'help' => 'Your inquiry may involve any of our listed markets or another country you would like us to evaluate. Include the proposed origin, destination, product, quantity, and timing where known.',
         'sections' => [],
     ],
     'privacy' => [

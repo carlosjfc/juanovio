@@ -1,6 +1,6 @@
 # Juanovio website — shared task tracker
 
-Last updated: 2026-10-11
+Last updated: 2026-10-15
 
 ## How we use this file
 
@@ -12,6 +12,10 @@ Last updated: 2026-10-11
 
 ## Next development priorities
 
+- [x] **Update bilingual sourcing and market-development content.**
+  - Completed 2026-10-15: Home, Markets, Trade, and Contact updated in English and Spanish. Country-code lists in `config/juanovio.php` provide six sourcing interests and seven destinations; `lang/es.json` supplies localized names. About and How We Work audited without content changes. Existing branding, routes, form bindings, legal copy, analytics, and consent behavior preserved.
+  - Verification: 48 PHP tests / 1,230 assertions passed with mocked notifications, Pint passed, production build passed, and `git diff --check` passed. Playwright on an isolated local server with inquiries/analytics disabled passed 110 checks; one desktop-only skip applies to a mobile-menu test. Covers both languages, responsive layouts, axe accessibility checks, CTA preselection, language switching, SEO and analytics behavior. Markets screenshots inspected at mobile and desktop sizes.
+  - The initial browser run against Herd passed 107 checks and failed three instances of the existing disabled-form expectation because Herd has submissions enabled. The isolated run verified that expectation without editing `.env` or sending real inquiries. No commit, push, deployment, or production-data change was performed.
 - [x] **Complete social sharing metadata.** AI implementation; user approval for any new artwork.
   - Add an approved share image, Open Graph image/alternative text/site name/locale, and Twitter card metadata through the shared layout.
   - Done when all eight pages render consistent metadata, image URLs resolve, and the artwork remains faithful to the brand.
@@ -32,7 +36,7 @@ Last updated: 2026-10-11
 ## Launch dependencies
 
 - [ ] **Review and approve public business copy.** User/business review; AI can prepare edits.
-  - Verify company identity and all factual claims across page copy and metadata. Confirm categories remain interests and Guyana remains a pilot under evaluation unless documented evidence supports changes.
+  - Verify company identity and all factual claims across page copy and metadata. Confirm categories remain interests, cement remains the current priority, and listed origins and destinations describe commercial development interests rather than established supply or shipping routes.
   - Done when approved wording is reflected in the version-controlled content and metadata.
 - [ ] **Finalize privacy policy and terms.** User/legal review; AI can implement reviewed text.
   - Confirm jurisdiction, verified privacy contact, hosting/mail processors, processing locations, international transfers, mailbox retention, rights/deletion procedures, and applicable terms.

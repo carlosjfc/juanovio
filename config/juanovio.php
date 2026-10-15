@@ -36,12 +36,20 @@ return [
         'other' => 'Other',
     ],
     'categories' => [
-        'construction' => ['title' => 'Construction & Infrastructure Materials', 'text' => 'Cement and other construction inputs may form part of sourcing discussions, depending on specifications, origin, and market needs. Initial pilot activity is exploring cement opportunities.'],
-        'agriculture-food' => ['title' => 'Agriculture & Food Commodities', 'text' => 'Potential opportunities include flour and other agricultural or food products, subject to applicable standards, origin requirements, shelf life, documentation, and demand.'],
-        'other' => ['title' => 'Other Trade Opportunities', 'text' => 'We remain open to evaluating additional lawful commercial goods where buyer needs and qualified supply align.'],
+        'construction' => ['title' => 'Construction & Infrastructure Materials', 'text' => 'Cement is our current commercial development priority. We evaluate sourcing and destination-market opportunities according to product specifications, manufacturing origin, quantity, documentation, and logistics. Other construction inputs are considered when they match a defined buyer requirement.'],
+        'agriculture-food' => ['title' => 'Agriculture & Food Commodities', 'text' => 'Flour and other selected agricultural or food products are areas of exploratory interest. Opportunities are reviewed according to buyer demand, applicable food standards, origin requirements, shelf life, and documentation.'],
+        'other' => ['title' => 'Other Trade Opportunities', 'text' => 'We consider additional commercial goods when there is a clear buyer requirement and suitable supply. Product suitability, applicable requirements, and commercial feasibility guide the evaluation.'],
     ],
     'markets' => [
-        'guyana' => ['title' => 'Initial focus', 'text' => 'Guyana is an initial destination market being evaluated for cement-related opportunities. This is a pilot focus, not the full geographic scope of Juanovio.', 'status' => 'Under evaluation'],
-        'additional' => ['title' => 'Expanding opportunities', 'text' => 'We welcome discussions involving other markets, subject to demand, qualified counterparties, trade restrictions, logistics feasibility, and commercial fit.', 'status' => 'Open to discussion'],
+        'sourcing' => [
+            'title' => 'Sourcing Markets',
+            'text' => 'We consider supply opportunities in the following countries, reviewing the product\'s actual manufacturing origin, specifications, export documentation, and commercial terms for each inquiry.',
+            'countries' => ['DO' => 'Dominican Republic', 'PA' => 'Panama', 'GT' => 'Guatemala', 'CO' => 'Colombia', 'BR' => 'Brazil', 'TR' => 'Türkiye (Turkey)'],
+        ],
+        'destination' => [
+            'title' => 'Destination Markets',
+            'text' => 'Our market development includes the following destinations. We welcome inquiries from importers, distributors, and business buyers with defined sourcing requirements.',
+            'countries' => ['GY' => 'Guyana', 'JM' => 'Jamaica', 'SR' => 'Suriname', 'BS' => 'Bahamas', 'BZ' => 'Belize', 'GD' => 'Grenada', 'AG' => 'Antigua and Barbuda'],
+        ],
     ],
 ];
