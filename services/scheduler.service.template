@@ -1,0 +1,24 @@
+# Managed by juanovio bin/manage-services: @INSTANCE@
+[Unit]
+Description=Juanovio @INSTANCE@ scheduler
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=@USER@
+WorkingDirectory=@PATH@
+ExecStartPre=@PHP@ @PATH@/artisan website:check-service-instance @INSTANCE@
+ExecStart=@PHP@ @PATH@/artisan schedule:work
+Restart=always
+RestartSec=5
+KillSignal=SIGTERM
+KillMode=mixed
+TimeoutStopSec=180
+UMask=0027
+NoNewPrivileges=true
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,6 +1,6 @@
 # Juanovio website — shared task tracker
 
-Last updated: 2026-10-15
+Last updated: 2026-10-16
 
 ## How we use this file
 
@@ -12,6 +12,11 @@ Last updated: 2026-10-15
 
 ## Next development priorities
 
+- [x] **Adapt Material Freight service management for Juanovio.**
+  - Completed 2026-10-16: executable `bin/manage-services`, worker/scheduler templates in `services/`, deployment identity/queue safety checks, and [docs/OPERATIONS.md](docs/OPERATIONS.md) with the non-login Linux account, ACLs, installation and lifecycle procedure. One default worker and one scheduler match current Juanovio workloads; inquiry delivery remains synchronous.
+  - Verification: 54 PHP tests / 1,286 assertions passed, including six new managed-service tests with actual database queue processing and fake host lifecycle commands. Pint, Bash syntax, production build and whitespace checks passed. Local PHP emits an existing missing `intl.so` startup warning.
+  - Target-server account creation, permissions, installation, backend connectivity, systemd/reboot acceptance and actual service health remain server-side steps; none were performed on this Mac.
+  - Coregrid comparison follow-up: `.env.example` now documents a local identity, database queue/cache defaults, retry intervals and prefix overrides. Cache/Redis prefixes derive from the deployment identity, all asynchronous queue-name defaults are namespaced, and managed workers honor safe custom namespaced queues. Existing `.env` files are unchanged; setup/deployment notes explain migrations and prefix transitions. Verification: 56 PHP tests / 1,312 assertions, Pint, production build, Bash syntax and whitespace checks passed.
 - [x] **Update bilingual sourcing and market-development content.**
   - Completed 2026-10-15: Home, Markets, Trade, and Contact updated in English and Spanish. Country-code lists in `config/juanovio.php` provide six sourcing interests and seven destinations; `lang/es.json` supplies localized names. About and How We Work audited without content changes. Existing branding, routes, form bindings, legal copy, analytics, and consent behavior preserved.
   - Verification: 48 PHP tests / 1,230 assertions passed with mocked notifications, Pint passed, production build passed, and `git diff --check` passed. Playwright on an isolated local server with inquiries/analytics disabled passed 110 checks; one desktop-only skip applies to a mobile-menu test. Covers both languages, responsive layouts, axe accessibility checks, CTA preselection, language switching, SEO and analytics behavior. Markets screenshots inspected at mobile and desktop sizes.

@@ -26,7 +26,9 @@ php artisan website:check
 
 Run Pint, PHP tests and browser checks in CI with development dependencies installed before shipping. `website:check` is read-only and exits 1 if a configured launch prerequisite is missing, including on a deliberately closed prelaunch deployment. It prints no credential values and sends no mail. A passing result verifies configuration shape, not factual/legal approval, domain ownership, provider authentication or actual delivery.
 
-The marketing site does not require database migrations with the current file session/cache and synchronous mail setup. If those settings change to database-backed stores, plan migrations and backup/rollback separately. No queue worker is required for current inquiry notifications.
+Existing environments using file sessions/cache and synchronous mail do not require database migrations. The distributed `.env.example` now selects database queue/cache stores and a local service identity; set a unique production `SERVICE_INSTANCE` and plan migrations and backup/rollback when adopting these settings. No queue worker is required for current synchronous inquiry notifications.
+
+Optional managed queue/scheduler infrastructure is provided by `bin/manage-services` and `services/`. Follow [the operations guide](OPERATIONS.md) for the dedicated Linux service account, ACLs, asynchronous backend setup, identity checks and systemd installation. This infrastructure does not change synchronous inquiry delivery. Restart managed services after release/rollback and configuration changes when enabled.
 
 ## Verify the deployed site
 

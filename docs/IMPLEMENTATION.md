@@ -36,7 +36,7 @@ php artisan key:generate
 npm run build
 ```
 
-Do not overwrite an existing `.env`. Laravel Herd serves this project at `http://juanovio.test`. Set `APP_URL` to the site's actual canonical origin. For another environment use `php artisan serve` and update the URL. Session and cache defaults use files, and email is synchronous; the marketing site does not require database migrations. Standard Laravel database scaffolding remains available for future needs.
+Do not overwrite an existing `.env`. Laravel Herd serves this project at `http://juanovio.test`. Set `APP_URL` to the site's actual canonical origin. For another environment use `php artisan serve` and update the URL. The distributed `.env.example` uses file sessions, database queue/cache stores and `SERVICE_INSTANCE=juanovio-local`; run `php artisan migrate` against the configured local database before using database-backed stores. Existing environments using file cache and synchronous mail can keep those settings without migrations. Inquiry email remains synchronous regardless of queue configuration. See [OPERATIONS.md](OPERATIONS.md) for deployment identities, cache/Redis isolation and managed Linux services.
 
 Current command-line verification uses PHP 8.5; Herd serves the local site with PHP 8.4. Earlier setup notes about a Homebrew `intl.so` warning are historical; no system PHP configuration was changed.
 

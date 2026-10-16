@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+action="${1:---help}"
+[[ $# -eq 0 ]] || shift
+instance=""
+service_user=""
+deploy_path="$project_root"
+php_binary=""
+
+usage() {
+    echo 'Usage: bin/manage-services ACTION [--instance BRAND-ENV] [--user USER --path /app/current --php /usr/bin/php]'
+    echo 'Actions: --render, --install, --enable, --start, --restart, --stop, --status (--check), --diagnose, --help'
+    echo 'Instance defaults to SERVICE_INSTANCE in the application .env; path defaults to this application root.'
+    echo '--render/--install require user and PHP. Install updates only units managed for this instance and path.'
+    echo 'Install does not enable or start services. Run on a Linux systemd host; use a distinct instance for every deployment.'
+}
+fail() { echo "$1" >&2; exit 1; }
+[[ "$action" != '--help' ]] || { usage; exit 0; }
+case "$action" in --render|--install|--enable|--start|--restart|--stop|--status|--check|--diagnose) ;; *) fail 'Unknown action.' ;; esac
+while [[ $# -gt 0 ]]; do
+    [[ $# -ge 2 ]] || fail 'Missing option value.'
+    case "$1" in
+        --instance) instance="$2" ;;
+        --user) service_user="$2" ;;
+        --path) deploy_path="$2" ;;
+        --php) php_binary="$2" ;;
+        *) fail 'Unknown option.' ;;
+    esac
+    shift 2
+done
+configured_instance=""
+if [[ -f "$deploy_path/.env" ]]; then
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        if [[ "$line" == SERVICE_INSTANCE=* ]]; then
+            configured_instance="${line#SERVICE_INSTANCE=}"
+            configured_instance="${configured_instance%$'\r'}"
+            configured_instance="${configured_instance#\"}"
+            configured_instance="${configured_instance%\"}"
+            configured_instance="${configured_instance#\'}"
+            configured_instance="${configured_instance%\'}"
+        fi
+    done < "$deploy_path/.env"
+fi
+if [[ -n "$configured_instance" ]]; then
+    [[ -z "$instance" || "$instance" == "$configured_instance" ]] || fail 'Instance differs from SERVICE_INSTANCE in this application .env.'
+    instance="$configured_instance"
+fi
+[[ "$instance" =~ ^[a-z0-9][a-z0-9-]{0,62}$ ]] || fail 'Supply a lowercase brand-environment instance (letters, digits, hyphens; maximum 63 characters).'
+units=("juanovio-${instance}-worker-default.service" "juanovio-${instance}-scheduler.service")
+
+if [[ "$action" == '--diagnose' ]]; then
+    [[ -n "$php_binary" ]] || php_binary="$(command -v php)"
+    [[ -f "$deploy_path/artisan" && -x "$php_binary" ]] || fail 'Application artisan file or executable PHP binary is missing.'
+    cd "$deploy_path"
+    exec "$php_binary" "$deploy_path/artisan" website:check-service-instance "$instance"
+fi
+
+if [[ "$action" == '--render' || "$action" == '--install' ]]; then
+    [[ "$service_user" =~ ^[a-z_][a-z0-9_-]*$ && "$service_user" != 'root' ]] || fail 'Supply a non-root service account.'
+    [[ "$deploy_path" =~ ^/[a-zA-Z0-9_./-]+$ && "$deploy_path" != '/' && "$deploy_path" != *'/../'* && "$deploy_path" != */.. ]] || fail 'Supply an absolute application path without spaces, traversal, or systemd expansions.'
+    [[ "$php_binary" =~ ^/[a-zA-Z0-9_./-]+$ ]] || fail 'Supply an absolute PHP binary path without spaces or systemd expansions.'
+fi
+render_unit() {
+    local role="$1" template='worker'
+    [[ "$role" != 'scheduler' ]] || template='scheduler'
+    sed -e "s|@INSTANCE@|$instance|g" -e "s|@USER@|$service_user|g" -e "s|@PATH@|$deploy_path|g" -e "s|@PHP@|$php_binary|g" -e "s|@WORKLOAD@|$role|g" "$project_root/services/$template.service.template"
+}
+roles=(default scheduler)
+if [[ "$action" == '--render' ]]; then
+    for index in "${!units[@]}"; do
+        echo "# ${units[$index]}"
+        render_unit "${roles[$index]}"
+    done
+    exit 0
+fi
+command -v systemctl >/dev/null 2>&1 || fail 'systemctl is required. Use --render for an offline preview.'
+privileged() {
+    if [[ "$EUID" -eq 0 ]]; then "$@"; else sudo -- "$@"; fi
+}
+if [[ "$action" == '--install' ]]; then
+    [[ -f "$deploy_path/artisan" && -x "$php_binary" ]] || fail 'Application artisan file or executable PHP binary is missing.'
+    id "$service_user" >/dev/null 2>&1 || fail 'Service account does not exist.'
+    for unit in "${units[@]}"; do
+        target="/etc/systemd/system/$unit"
+        [[ ! -L "$target" ]] || fail 'Refusing to overwrite a symlinked unit.'
+        if [[ -e "$target" ]]; then
+            IFS= read -r marker < "$target"
+            [[ "$marker" == "# Managed by juanovio bin/manage-services: $instance" ]] || fail 'Refusing to overwrite an unmanaged unit.'
+            existing_path="$(sed -n 's/^WorkingDirectory=//p' "$target")"
+            [[ "$existing_path" == "$deploy_path" ]] || fail 'Instance is already bound to a different application path. Use its original stable path or a distinct instance.'
+        fi
+    done
+    temporary_dir="$(mktemp -d)"
+    cleanup() {
+        for unit in "${units[@]}"; do [[ ! -f "$temporary_dir/$unit" ]] || unlink "$temporary_dir/$unit"; done
+        rmdir "$temporary_dir"
+    }
+    trap cleanup EXIT
+    for index in "${!units[@]}"; do
+        render_unit "${roles[$index]}" > "$temporary_dir/${units[$index]}"
+        privileged install -m 0644 "$temporary_dir/${units[$index]}" "/etc/systemd/system/${units[$index]}"
+    done
+    privileged systemctl daemon-reload
+    echo 'Installed units. Enable/start them explicitly after checking application configuration.'
+    exit 0
+fi
+case "$action" in
+    --enable) privileged systemctl enable "${units[@]}" ;;
+    --start) privileged systemctl start "${units[@]}" ;;
+    --restart) privileged systemctl restart "${units[@]}" ;;
+    --stop)
+        privileged systemctl stop "${units[1]}"
+        privileged systemctl stop "${units[0]}"
+        ;;
+    --status|--check) systemctl status --no-pager "${units[@]}" ;;
+esac
